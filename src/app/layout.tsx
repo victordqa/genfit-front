@@ -1,14 +1,18 @@
 import "./globals.css"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import ResponsiveAppBar from "./components/ResponsiveAppBar"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Gen Fit",
   description: "Crie, analise e equilibre seus treinos de crossfit",
 }
+
+import { Roboto } from "next/font/google"
+
+const roboto = Roboto({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+})
 
 export default function RootLayout({
   children,
@@ -17,8 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <ResponsiveAppBar />
+        <h1 style={{ fontSize: "60px" }}>Treinador</h1>
         {children}
       </body>
     </html>
