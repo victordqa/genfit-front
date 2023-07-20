@@ -23,7 +23,6 @@ export default function RootLayout({
     <html lang="pt">
       <body className={roboto.className}>
         <ResponsiveAppBar />
-        <h1 style={{ fontSize: "60px" }}>Treinador</h1>
         {children}
       </body>
     </html>
