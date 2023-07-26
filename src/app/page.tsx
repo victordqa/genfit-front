@@ -3,10 +3,8 @@ import MainContainer from "./components/MainContainer"
 
 export default function Home() {
   return (
-    <MainContainer>
-      <Box component={"section"}>
-        <Typography variant="h1">Treinador</Typography>
-      </Box>
-    </MainContainer>
+    <Box component={"section"}>
+      <Typography variant="h6">Apresentacao</Typography>
+    </Box>
   )
 }

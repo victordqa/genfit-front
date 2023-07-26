@@ -7,15 +7,16 @@ import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import Menu from "@mui/material/Menu"
 import MenuIcon from "@mui/icons-material/Menu"
-import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
-import Tooltip from "@mui/material/Tooltip"
 import MenuItem from "@mui/material/MenuItem"
 import AdbIcon from "@mui/icons-material/Adb"
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "./config/theme"
 
 import Link from "next/link"
+import Modal from "./ParametricModal"
+import ParametricModal from "./ParametricModal"
+import LoginForm from "./LoginForm"
 
 const pages = ["Products", "Pricing", "Blog"]
 const settings = ["Profile", "Account", "Dashboard", "Logout"]
@@ -46,13 +47,15 @@ function ResponsiveAppBar() {
       <AppBar position="static">
         <Box
           sx={{
-            marginLeft: 6,
-            marginRight: 6,
+            marginLeft: "5%",
+            marginRight: "5%",
           }}
         >
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Link href={"/dashboard"}>LOGO</Link>
+            <Box sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
+              <AdbIcon />
+              <Link href={"/"}>GENFIT</Link>
+            </Box>
 
             <Box
               sx={{
@@ -112,7 +115,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              GENFIT
             </Typography>
             <Box
               sx={{
@@ -132,35 +135,9 @@ function ResponsiveAppBar() {
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+            <ParametricModal>
+              <LoginForm />
+            </ParametricModal>
           </Toolbar>
         </Box>
       </AppBar>
