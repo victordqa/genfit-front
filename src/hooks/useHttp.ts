@@ -8,13 +8,11 @@ export const usePost = async (
   url: string
 ) => {
   try {
-    const res = await axios.post(url, body)
+    const res = await axios.post(url, body, { withCredentials: true })
     return { res }
   } catch (error: any) {
     console.log(error)
 
-    if (error.response && error.response.data.statusCode === 401)
-      return { error, message: "Senha ou email invalidos" }
-    return { error, message: error.message }
+    return { error }
   }
 }

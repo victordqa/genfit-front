@@ -6,6 +6,8 @@ import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertTitle, TextField } from "@mui/material"
 import { usePost } from "../../hooks/useHttp"
+import { useRouter } from "next/navigation"
+import routes from "../../routes"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -15,6 +17,7 @@ export default function LoginForm() {
   const [input, setInput] = useState({ email: "", password: "" })
   const [isDisabled, setDisabled] = useState(false)
   const [error, setError] = useState("")
+  const { push } = useRouter()
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name
@@ -35,7 +38,15 @@ export default function LoginForm() {
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${process.env.NEXT_PUBLIC_LOGIN_PATH}`
     )
     setDisabled(false)
-    if (res.error) setError(res.message as string)
+
+    const statusCode = res.error?.response?.data?.statusCode || res.res?.status
+    if (statusCode === 201) {
+      push(routes.boxesRoute)
+    } else if (statusCode === 401) {
+      setError("Email ou senha invalidos")
+    } else {
+      setError("Ops, algo inesperado ocorreu")
+    }
   }
   return (
     <div>
