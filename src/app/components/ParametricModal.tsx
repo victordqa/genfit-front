@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Button, Modal } from "@mui/material"
+import { Box, Button, Modal, SxProps, Theme } from "@mui/material"
 import React from "react"
 
 const style = {
@@ -23,20 +23,24 @@ export default function ParametricModal({
   handleOpen,
   handleClose,
   children,
+  buttonSx = undefined,
+  buttonTxt = "Entrar",
 }: {
   open: boolean
   handleOpen: () => void
   handleClose: () => void
   children: React.ReactNode
+  buttonSx?: SxProps<Theme> | undefined
+  buttonTxt?: string
 }) {
   return (
     <div>
       <Button
         variant="contained"
-        sx={{ border: "2px solid white" }}
+        sx={buttonSx || { border: "2px solid white" }}
         onClick={handleOpen}
       >
-        Entrar
+        {buttonTxt}
       </Button>
       <Modal
         open={open}

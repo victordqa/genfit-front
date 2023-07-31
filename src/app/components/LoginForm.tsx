@@ -8,6 +8,8 @@ import { Alert, AlertTitle, TextField } from "@mui/material"
 import { usePost } from "../../hooks/useHttp"
 import { useRouter } from "next/navigation"
 import routes from "../../routes"
+import SignUpForm from "./SingUpForm"
+import ParametricModal from "./ParametricModal"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -22,6 +24,10 @@ export default function LoginForm({
   const [isDisabled, setDisabled] = useState(false)
   const [error, setError] = useState("")
   const { push } = useRouter()
+
+  const [openSignUp, setSignUpOpen] = React.useState(false)
+  const handleSignUpOpen = () => setSignUpOpen(true)
+  const handleSignUpClose = () => setSignUpOpen(false)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name
@@ -117,9 +123,23 @@ export default function LoginForm({
           component="h2"
           sx={{ margin: "1rem" }}
         >
-          Ainda nao possui uma conta?
+          Ainda não possui uma conta?
         </Typography>
-        <Button variant="outlined">Registrar-se</Button>
+        <ParametricModal
+          open={openSignUp}
+          handleOpen={handleSignUpOpen}
+          handleClose={handleSignUpClose}
+          buttonSx={{
+            color: "#444ca3!important",
+            border: "2px solid transparent",
+            backgroundColor: "white",
+            margin: "0.5rem",
+            ":hover": { border: "2px solid #444ca3", backgroundColor: "white" },
+          }}
+          buttonTxt="Registrar"
+        >
+          <SignUpForm handleClose={handleSignUpClose} />
+        </ParametricModal>
       </Box>
     </div>
   )
