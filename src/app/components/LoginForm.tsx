@@ -13,7 +13,11 @@ const inputSyle = {
   margin: "0.5rem",
 }
 
-export default function LoginForm() {
+export default function LoginForm({
+  handleClose,
+}: {
+  handleClose: () => void
+}) {
   const [input, setInput] = useState({ email: "", password: "" })
   const [isDisabled, setDisabled] = useState(false)
   const [error, setError] = useState("")
@@ -42,6 +46,7 @@ export default function LoginForm() {
     const statusCode = res.error?.response?.data?.statusCode || res.res?.status
     if (statusCode === 201) {
       push(routes.boxesRoute)
+      handleClose()
     } else if (statusCode === 401) {
       setError("Email ou senha invalidos")
     } else {

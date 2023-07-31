@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Button, Modal, TextField, Typography } from "@mui/material"
+import { Box, Button, Modal } from "@mui/material"
 import React from "react"
 
 const style = {
@@ -19,14 +19,16 @@ const style = {
 }
 
 export default function ParametricModal({
+  open,
+  handleOpen,
+  handleClose,
   children,
 }: {
+  open: boolean
+  handleOpen: () => void
+  handleClose: () => void
   children: React.ReactNode
 }) {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
   return (
     <div>
       <Button

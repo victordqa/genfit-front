@@ -42,6 +42,10 @@ function ResponsiveAppBar() {
     setAnchorElUser(null)
   }
 
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
@@ -135,8 +139,12 @@ function ResponsiveAppBar() {
               ))}
             </Box>
 
-            <ParametricModal>
-              <LoginForm />
+            <ParametricModal
+              open={open}
+              handleOpen={handleOpen}
+              handleClose={handleClose}
+            >
+              <LoginForm handleClose={handleClose} />
             </ParametricModal>
           </Toolbar>
         </Box>
