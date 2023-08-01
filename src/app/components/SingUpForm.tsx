@@ -4,67 +4,113 @@ import { useState } from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { Alert, AlertTitle, TextField } from "@mui/material"
+import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
 import { usePost } from "../../hooks/useHttp"
 import { useRouter } from "next/navigation"
 import routes from "../../routes"
+import { singUpFormValidation } from "../../validation/validation"
 
 const inputSyle = {
   margin: "0.5rem",
 }
 
-export default function SignUpForm({
-  handleClose,
-}: {
-  handleClose: () => void
-}) {
+export default function SignUpForm() {
   const [input, setInput] = useState({
     email: "",
     password: "",
     name: "",
-    confirmPassword: "",
+    password_confirmation: "",
+  })
+
+  type ValidationsErrors = {
+    name: string[] | undefined
+    email: string[] | undefined
+    password: string[] | undefined
+    password_confirmation: string[] | undefined
+  }
+
+  type Alert =
+    | { title: string; message: string; severity: AlertColor }
+    | undefined
+
+  const [validationErrors, setValidationErrors] = useState<ValidationsErrors>({
+    name: undefined,
+    email: undefined,
+    password: undefined,
+    password_confirmation: undefined,
   })
 
   const [isDisabled, setDisabled] = useState(false)
-  const [error, setError] = useState("")
-  const { push } = useRouter()
+  const [alert, setAlert] = useState<Alert>(undefined)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name
     const inputValue = e.target.value
-    console.log(inputValue)
+
     setInput((oldInput) => {
       return { ...oldInput, [inputName]: inputValue }
     })
+  }
+
+  const prepareHelperText = (errors: string[] | undefined) => {
+    if (errors) {
+      return errors.reduce((acc, err) => {
+        return acc + " " + err
+      }, "")
+    } else {
+      return ""
+    }
   }
 
   const handleSend = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
-    setError("")
+    setAlert(undefined)
+    setValidationErrors({
+      name: undefined,
+      email: undefined,
+      password: undefined,
+      password_confirmation: undefined,
+    })
     setDisabled(true)
-    //VALIDATE (INPUT)
+    const errors = singUpFormValidation(input)
+    if (Object.entries(errors).length > 0) {
+      setValidationErrors(errors as ValidationsErrors)
+    } else {
+      const res = await usePost(
+        { ...input, confirmPassword: input.password_confirmation },
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.signup}`
+      )
 
-    // const res = await usePost(
-    //   input,
-    //   `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${process.env.NEXT_PUBLIC_LOGIN_PATH}`
-    // )
+      const statusCode =
+        res.error?.response?.data?.statusCode || res.res?.status
+      if (statusCode === 201) {
+        setAlert({
+          title: "Sucesso",
+          message: "Conta criada! Realize o login",
+          severity: "success",
+        })
+      } else if (statusCode === 422) {
+        setAlert({
+          title: "Erro",
+          message: "Este email ja foi utilizado",
+          severity: "error",
+        })
+      } else {
+        setAlert({
+          title: "Erro",
+          message: "Ops, algo inesperado ocorreu",
+          severity: "error",
+        })
+      }
+    }
+
     setDisabled(false)
-
-    // const statusCode = res.error?.response?.data?.statusCode || res.res?.status
-    // if (statusCode === 201) {
-    //   push(routes.boxesRoute)
-    //   handleClose()
-    // } else if (statusCode === 401) {
-    //   setError("Email ou senha invalidos")
-    // } else {
-    //   setError("Ops, algo inesperado ocorreu")
-    // }
   }
   return (
     <div>
-      <Box>
+      <Box sx={{ minHeight: "70vh" }}>
         <Typography
           id="modal-modal-title"
           variant="h6"
@@ -75,6 +121,8 @@ export default function SignUpForm({
         </Typography>
         <form>
           <TextField
+            error={validationErrors.name !== undefined}
+            helperText={prepareHelperText(validationErrors.name)}
             sx={inputSyle}
             id="name"
             label="Nome"
@@ -87,7 +135,8 @@ export default function SignUpForm({
             }
           />
           <TextField
-            error={false}
+            error={validationErrors.email !== undefined}
+            helperText={prepareHelperText(validationErrors.email)}
             sx={inputSyle}
             id="signup-email"
             label="Email"
@@ -100,6 +149,8 @@ export default function SignUpForm({
             autoComplete="current-email"
           />
           <TextField
+            error={validationErrors.password !== undefined}
+            helperText={prepareHelperText(validationErrors.password)}
             sx={inputSyle}
             id="signup-pwd"
             label="Senha"
@@ -113,28 +164,21 @@ export default function SignUpForm({
           />
 
           <TextField
+            error={validationErrors.password_confirmation !== undefined}
+            helperText={prepareHelperText(
+              validationErrors.password_confirmation
+            )}
             sx={inputSyle}
             id="signup-confirm-pwd"
             label="Confirmar Senha"
             type="password"
             autoComplete="current-password"
-            name="confirmPassword"
-            value={input.confirmPassword}
+            name="password_confirmation"
+            value={input.password_confirmation}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInput(e)
             }
           />
-
-          {error.length > 0 && (
-            <Alert
-              severity="error"
-              sx={{ marginTop: "1rem", marginBottom: "1rem" }}
-            >
-              <AlertTitle>Erro</AlertTitle>
-              {error}
-            </Alert>
-          )}
-
           <Button
             variant="outlined"
             color="secondary"
@@ -148,6 +192,15 @@ export default function SignUpForm({
           >
             Registrar
           </Button>
+          {alert && (
+            <Alert
+              severity={alert.severity}
+              sx={{ marginTop: "1rem", marginBottom: "1rem" }}
+            >
+              <AlertTitle>{alert.title}</AlertTitle>
+              {alert.message}
+            </Alert>
+          )}
         </form>
       </Box>
     </div>

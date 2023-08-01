@@ -45,7 +45,7 @@ export default function LoginForm({
     setDisabled(true)
     const res = await usePost(
       input,
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${process.env.NEXT_PUBLIC_LOGIN_PATH}`
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.login}`
     )
     setDisabled(false)
 
@@ -138,7 +138,7 @@ export default function LoginForm({
           }}
           buttonTxt="Registrar"
         >
-          <SignUpForm handleClose={handleSignUpClose} />
+          <SignUpForm />
         </ParametricModal>
       </Box>
     </div>
