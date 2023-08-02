@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 }
 
 import { Roboto } from "next/font/google"
+import AuthContext from "../context/AuthContext"
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -22,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body className={roboto.className}>
-        <ResponsiveAppBar />
-        {children}
+        <AuthContext>
+          <ResponsiveAppBar />
+          {children}
+        </AuthContext>
       </body>
     </html>
   )

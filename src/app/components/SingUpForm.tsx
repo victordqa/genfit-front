@@ -6,7 +6,6 @@ import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
 import { usePost } from "../../hooks/useHttp"
-import { useRouter } from "next/navigation"
 import routes from "../../routes"
 import { singUpFormValidation } from "../../validation/validation"
 
