@@ -1,6 +1,6 @@
 import "./globals.css"
 import type { Metadata } from "next"
-import ResponsiveAppBar from "./components/ResponsiveAppBar"
+import ResponsiveAppBar from "./components/navbar/ResponsiveAppBar"
 
 export const metadata: Metadata = {
   title: "Gen Fit",

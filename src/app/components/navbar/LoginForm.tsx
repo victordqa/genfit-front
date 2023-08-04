@@ -5,11 +5,11 @@ import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertTitle, TextField } from "@mui/material"
-import { usePost } from "../../hooks/useHttp"
+import { usePost } from "../../../hooks/useHttp"
 import { useRouter } from "next/navigation"
-import routes from "../../routes"
-import SignUpForm from "./SingUpForm"
-import ParametricModal from "./ParametricModal"
+import routes from "../../../routes"
+import SignUpForm from "../SingUpForm"
+import ParametricModal from "../ParametricModal"
 
 const inputSyle = {
   margin: "0.5rem",

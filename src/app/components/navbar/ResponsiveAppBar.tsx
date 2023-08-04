@@ -11,41 +11,22 @@ import Button from "@mui/material/Button"
 import MenuItem from "@mui/material/MenuItem"
 import AdbIcon from "@mui/icons-material/Adb"
 import { ThemeProvider } from "@mui/material/styles"
-import theme from "./config/theme"
+import theme from "../config/theme"
 
 import Link from "next/link"
-import Modal from "./ParametricModal"
-import ParametricModal from "./ParametricModal"
-import LoginForm from "./LoginForm"
+import LoginButton from "./LoginButton"
 
 const pages = ["Products", "Pricing", "Blog"]
-const settings = ["Profile", "Account", "Dashboard", "Logout"]
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  )
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
-  }
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
   }
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
   }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
@@ -138,14 +119,7 @@ function ResponsiveAppBar() {
                 </Button>
               ))}
             </Box>
-
-            <ParametricModal
-              open={open}
-              handleOpen={handleOpen}
-              handleClose={handleClose}
-            >
-              <LoginForm handleClose={handleClose} />
-            </ParametricModal>
+            <LoginButton />
           </Toolbar>
         </Box>
       </AppBar>
