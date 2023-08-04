@@ -1,3 +1,4 @@
+"use client"
 import {
   Box,
   Tooltip,
@@ -11,6 +12,9 @@ import ParametricModal from "../ParametricModal"
 import LoginForm from "./LoginForm"
 import { useContext, useState } from "react"
 import { AuthenticationContext } from "../../../context/AuthContext"
+import { useGet } from "../../../hooks/useHttp"
+import routes from "../../../routes"
+import { useRouter } from "next/navigation"
 
 export default function LoginButton() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -22,13 +26,18 @@ export default function LoginButton() {
     setAnchorElUser(null)
   }
 
-  const { coachData } = useContext(AuthenticationContext)
+  const { coachData, setAuth } = useContext(AuthenticationContext)
+
+  const { push } = useRouter()
 
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const settings = ["Profile", "Account", "Dashboard", "Logout"]
+  const handleLogout = () => {
+    useGet(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.logout}`)
+    setAuth({ coachData: null })
+    push(routes.home)
+  }
 
   return (
     <>
@@ -55,11 +64,11 @@ export default function LoginButton() {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
+            <MenuItem onClick={handleCloseUserMenu}>
+              <Typography onClick={handleLogout} textAlign="center">
+                Logout
+              </Typography>
+            </MenuItem>
           </Menu>
         </Box>
       ) : (

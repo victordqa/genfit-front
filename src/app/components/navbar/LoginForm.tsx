@@ -1,6 +1,5 @@
 "use client"
-import * as React from "react"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
@@ -10,6 +9,7 @@ import { useRouter } from "next/navigation"
 import routes from "../../../routes"
 import SignUpForm from "../SingUpForm"
 import ParametricModal from "../ParametricModal"
+import { AuthenticationContext } from "../../../context/AuthContext"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -24,8 +24,9 @@ export default function LoginForm({
   const [isDisabled, setDisabled] = useState(false)
   const [error, setError] = useState("")
   const { push } = useRouter()
+  const { setAuth } = useContext(AuthenticationContext)
 
-  const [openSignUp, setSignUpOpen] = React.useState(false)
+  const [openSignUp, setSignUpOpen] = useState(false)
   const handleSignUpOpen = () => setSignUpOpen(true)
   const handleSignUpClose = () => setSignUpOpen(false)
 
@@ -49,8 +50,12 @@ export default function LoginForm({
     )
     setDisabled(false)
 
-    const statusCode = res.error?.response?.data?.statusCode || res.res?.status
+    const statusCode = res.status
     if (statusCode === 201) {
+      //update coach golbalData state here
+      console.log("setting from logins")
+      const { coach } = res.data
+      setAuth({ coachData: coach })
       push(routes.boxesRoute)
       handleClose()
     } else if (statusCode === 401) {
