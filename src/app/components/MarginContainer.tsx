@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-export default function MainContainer({
+export default function MarginContainer({
   children,
 }: {
   children: React.ReactNode

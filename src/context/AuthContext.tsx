@@ -34,7 +34,6 @@ export default function AuthContext({ children }: { children: ReactNode }) {
   //make a call to me api
   //set state based on call - null if unauthorized and data if authorized
   useEffect(() => {
-    console.log("effect")
     useGet(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.me}`).then(
       (res) => {
         const statusCode = res.status

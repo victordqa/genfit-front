@@ -82,8 +82,7 @@ export default function SignUpForm() {
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.signup}`
       )
 
-      const statusCode =
-        res.error?.response?.data?.statusCode || res.res?.status
+      const statusCode = res.status
       if (statusCode === 201) {
         setAlert({
           title: "Sucesso",
@@ -181,6 +180,7 @@ export default function SignUpForm() {
           <Button
             variant="outlined"
             color="secondary"
+            type="submit"
             sx={{
               backgroundColor: "#444ca3!important",
               margin: "0.5rem",

@@ -53,10 +53,9 @@ export default function LoginForm({
     const statusCode = res.status
     if (statusCode === 201) {
       //update coach golbalData state here
-      console.log("setting from logins")
       const { coach } = res.data
       setAuth({ coachData: coach })
-      push(routes.boxesRoute)
+      push(routes.dashboard)
       handleClose()
     } else if (statusCode === 401) {
       setError("Email ou senha invalidos")
@@ -117,6 +116,7 @@ export default function LoginForm({
             sx={{ backgroundColor: "#444ca3!important", margin: "0.5rem" }}
             onClick={handleSend}
             disabled={isDisabled}
+            type="submit"
           >
             Entrar
           </Button>

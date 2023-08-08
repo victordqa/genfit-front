@@ -5,6 +5,7 @@ const routes = {
   signup: "/coaches/create",
   me: "/coaches/me",
   home: "/",
+  dashboard: "/dashboard",
 }
 
 export const publicRoutes = [routes.home]

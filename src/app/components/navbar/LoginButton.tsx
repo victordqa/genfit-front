@@ -15,6 +15,7 @@ import { AuthenticationContext } from "../../../context/AuthContext"
 import { useGet } from "../../../hooks/useHttp"
 import routes from "../../../routes"
 import { useRouter } from "next/navigation"
+import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 
 export default function LoginButton() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -45,7 +46,7 @@ export default function LoginButton() {
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <AccountCircleIcon sx={{ color: "white" }} fontSize="large" />
             </IconButton>
           </Tooltip>
           <Menu
