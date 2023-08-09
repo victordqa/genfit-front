@@ -49,7 +49,6 @@ function ResponsiveAppBar() {
             >
               GENFIT
             </Typography>
-
             <LoginButton />
           </Toolbar>
         </Box>

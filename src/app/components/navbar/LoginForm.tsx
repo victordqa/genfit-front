@@ -55,7 +55,7 @@ export default function LoginForm({
       //update coach golbalData state here
       const { coach } = res.data
       setAuth({ coachData: coach })
-      push(routes.dashboard)
+      push(routes.boxesRoute)
       handleClose()
     } else if (statusCode === 401) {
       setError("Email ou senha invalidos")

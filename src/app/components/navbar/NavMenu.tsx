@@ -7,10 +7,17 @@ import {
   Typography,
 } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import React from "react"
+import React, { useContext } from "react"
+import { AuthenticationContext } from "../../../context/AuthContext"
+import routes from "../../../routes"
+import Link from "next/link"
 
-const pages = ["Products", "Pricing", "Blog"]
+const pages = [
+  { name: "Dashboard", path: routes.dashboard },
+  { name: "Boxes", path: routes.boxesRoute },
+]
 export default function NavMenu() {
+  const { coachData } = useContext(AuthenticationContext)
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -55,11 +62,12 @@ export default function NavMenu() {
             display: { xs: "block", md: "none" },
           }}
         >
-          {pages.map((page) => (
-            <MenuItem key={page} onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">{page}</Typography>
-            </MenuItem>
-          ))}
+          {coachData &&
+            pages.map((page) => (
+              <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                <Link href={page.path}> {page.name}</Link>
+              </MenuItem>
+            ))}
         </Menu>
       </Box>
       <Box
@@ -69,15 +77,12 @@ export default function NavMenu() {
           marginLeft: 3,
         }}
       >
-        {pages.map((page) => (
-          <Button
-            key={page}
-            onClick={handleCloseNavMenu}
-            sx={{ my: 2, color: "white", display: "block" }}
-          >
-            {page}
-          </Button>
-        ))}
+        {coachData &&
+          pages.map((page) => (
+            <Box key={page.name} sx={{ mr: 2 }}>
+              <Link href={page.path}>{page.name.toLocaleUpperCase()}</Link>
+            </Box>
+          ))}
       </Box>
     </>
   )
