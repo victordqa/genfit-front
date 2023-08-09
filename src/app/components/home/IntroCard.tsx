@@ -57,6 +57,8 @@ export default function IntroCard(props: MainFeaturedPostProps) {
               position: "relative",
               p: { xs: 3, md: 6 },
               pr: { md: 0 },
+              backgroundColor: "rgba(0, 0, 0, 0.4)",
+              borderRadius: "2rem",
             }}
           >
             <Typography
