@@ -1,7 +1,25 @@
+import { Box, Container } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import BoxesCards from "../components/boxes/BoxesCards"
+
 export default function Boxes() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>BOXes!</h1>
+    <main>
+      <Container
+        sx={{
+          mt: 3,
+          display: "flex",
+          justifyContent: "center",
+          width: "auto",
+        }}
+      >
+        <Box sx={{ borderBottom: "1px solid white", padding: 0.5 }}>
+          <Typography variant="h3" sx={{ color: "white" }}>
+            Boxes
+          </Typography>
+        </Box>
+      </Container>
+      <BoxesCards />
     </main>
   )
 }
