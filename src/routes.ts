@@ -6,6 +6,8 @@ const routes = {
   me: "/coaches/me",
   home: "/",
   dashboard: "/dashboard",
+  listBoxesApi: "/coaches/boxes",
+  createBoxesApi: "/coaches/create-box",
 }
 
 export const publicRoutes = [routes.home]
