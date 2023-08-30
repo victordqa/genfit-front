@@ -6,14 +6,10 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { styled } from "@mui/material/styles"
-import Paper from "@mui/material/Paper"
 import Grid from "@mui/material/Grid"
 import { useGet } from "../../../hooks/useHttp"
 import routes, { publicRoutes } from "../../../routes"
 import CircularProgress from "@mui/material/CircularProgress"
-import { Fab } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
 import ParametricModal from "../ParametricModal"
 import CreateBoxForm from "./CreateBoxForm"
 import { useRouter } from "next/navigation"
@@ -43,11 +39,15 @@ export default function BoxesCards() {
   const [boxes, setBoxes] = useState<Box>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const { push } = useRouter()
 
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const { push } = useRouter()
+
+  const handleDetailsClick = (boxId: number) => {
+    push(`${routes.boxPage}/${boxId}`)
+  }
 
   const fetchAndSetStates = () => {
     setError("")
@@ -59,8 +59,6 @@ export default function BoxesCards() {
       setLoading(false)
       if (statusCode === 200) {
         setBoxes(res.data.boxes)
-      } else if (statusCode === 401) {
-        push(routes.home)
       } else {
         console.log(res)
       }
@@ -70,31 +68,6 @@ export default function BoxesCards() {
   useEffect(() => {
     fetchAndSetStates()
   }, [])
-
-  const card = (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
-  )
 
   let content = (
     <Box
@@ -139,7 +112,25 @@ export default function BoxesCards() {
         >
           {boxes.map((box) => (
             <Grid item xs={2} sm={2} md={2} key={box.id}>
-              {card}
+              <Card sx={{ minWidth: 275 }}>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {box.name}
+                  </Typography>
+
+                  <Typography variant="body2">
+                    {box.trainnings.length} treinos no histórico.
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    onClick={() => handleDetailsClick(box.id)}
+                    size="small"
+                  >
+                    DETALHES
+                  </Button>
+                </CardActions>
+              </Card>
             </Grid>
           ))}
         </Grid>

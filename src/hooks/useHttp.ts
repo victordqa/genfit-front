@@ -1,5 +1,19 @@
 import axios from "axios"
 
+export type UseHttpResponse =
+  | {
+      data: any
+      status: any
+      headers: any
+      message: any
+    }
+  | {
+      message: any
+      data?: undefined
+      status?: undefined
+      headers?: undefined
+    }
+
 const errorhandler = (error: any) => {
   console.log(error)
   if (error.response) {

@@ -8,6 +8,11 @@ const routes = {
   dashboard: "/dashboard",
   listBoxesApi: "/coaches/boxes",
   createBoxesApi: "/coaches/create-box",
+  getBoxApi: "/coaches/box",
+  boxPage: "/box",
+  suggestTrainningApi: "/trainnings/suggest",
+  listCoachExsApi: "/exercises/list",
+  listCoachModsApi: "/exercises/list-modifiers",
 }
 
 export const publicRoutes = [routes.home]

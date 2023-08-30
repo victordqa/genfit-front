@@ -8,6 +8,7 @@ import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
 import { usePost } from "../../../hooks/useHttp"
 import routes from "../../../routes"
 import { createBoxFormValidation } from "../../../validation/validation"
+import { useRouter } from "next/navigation"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -36,6 +37,7 @@ export default function CreateBoxForm({
 
   const [isDisabled, setDisabled] = useState(false)
   const [alert, setAlert] = useState<Alert>(undefined)
+  const { push } = useRouter()
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name
@@ -82,6 +84,8 @@ export default function CreateBoxForm({
           severity: "success",
         })
         fetchAndSetStates()
+      } else if (statusCode === 401) {
+        push(routes.home)
       } else {
         setAlert({
           title: "Erro",
