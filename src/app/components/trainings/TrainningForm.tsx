@@ -4,30 +4,22 @@ import { useEffect, useState, useReducer } from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
+import { Alert, AlertColor, AlertTitle, Card, TextField } from "@mui/material"
 import { useGet, usePost, UseHttpResponse } from "../../../hooks/useHttp"
 //import { singUpFormValidation } from "../../validation/validation"
 import routes from "../../../routes"
-import BlockForm from "./BlockFrom"
+import BlockForm from "./BlockForm"
 import {
   BlockDetailsFromApi,
   BlockDetailsWithIds,
   TrainningFromApi,
   TrainningWithIds,
   Modifier,
+  ExercisesWithIds,
 } from "./types"
 import trainningReducer from "./trainningReducer"
 import { usePathname } from "next/navigation"
 import CircularProgress from "@mui/material/CircularProgress"
-
-type BlockNameMapping = {
-  [key: string]: string
-}
-const blockNameMapping = {
-  warmUp: "Warm Up",
-  skill: "Skill",
-  wod: "WOD",
-} as BlockNameMapping
 
 const inputSyle = {
   margin: "0.5rem",
@@ -75,6 +67,17 @@ export default function TrainningForm() {
     })
   }
 
+  const handleChangeExercise = (
+    oldExercise: ExercisesWithIds,
+    newExercise: ExercisesWithIds
+  ) => {
+    dispatch({
+      type: "change_exercise",
+      oldExercise,
+      newExercise,
+    })
+  }
+
   const handleApiCalls = async (apiCalls: Promise<UseHttpResponse>[]) => {
     const responses = await Promise.all(apiCalls)
     const haveAllPassed = responses.every((res) => res.status === 200)
@@ -114,17 +117,34 @@ export default function TrainningForm() {
     <form>
       {trainnings.map((trainning: TrainningWithIds) => {
         return (
-          <Box key={trainning.trainningId}>
-            <Typography variant="h5">{`Dia ${
-              trainning.trainningId + 1
-            }`}</Typography>
+          <Box
+            key={trainning.trainningId}
+            sx={{
+              borderTop: "3px solid #121858",
+              borderBottom: "3px solid #121858",
+              width: { xs: "100%", md: 500, lg: 800 },
+              padding: 1,
+              pt: 2,
+              marginTop: { xs: 3, md: 5 },
+            }}
+          >
+            <Typography
+              sx={{
+                display: "inline",
+                backgroundColor: "#121858",
+                color: "white",
+                borderRadius: 10,
+                padding: 1.5,
+              }}
+              variant="h5"
+            >{`Dia ${trainning.trainningId + 1}`}</Typography>
 
             {Object.entries(trainning.trainning).map(
               ([blockName, blockDetails]) => {
                 return (
                   <BlockForm
-                    key={blockName}
-                    // exerciseDetails={exercises}
+                    key={blockName + trainning.trainningId}
+                    exerciseProps={{ exercises }}
                     blockProps={{ blockDetails, modifiers }}
                   />
                 )
@@ -147,7 +167,10 @@ export default function TrainningForm() {
   return (
     <div>
       <Box
-        sx={{ minHeight: "70vh", display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
         {content}
       </Box>

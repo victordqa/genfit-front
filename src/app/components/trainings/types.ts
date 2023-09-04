@@ -20,7 +20,7 @@ export type Modifier = {
   max_candidates: number
 }
 
-interface ExercisesWithIds extends Exercise {
+export interface ExercisesWithIds extends Exercise {
   blockId: number
   trainningId: number
 }

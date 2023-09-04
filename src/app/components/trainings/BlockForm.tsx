@@ -18,18 +18,30 @@ import {
 import ExerciseForm from "./ExerciseForm"
 import { Exercise, BlockDetailsWithIds, Modifier } from "./types"
 
+type BlockNameMapping = {
+  [key: string]: string
+}
+const blockNameMapping = {
+  warmUp: "Warm Up",
+  skill: "Skill",
+  wod: "WOD",
+} as BlockNameMapping
+
 const inputSyle = {
   margin: "0.1rem",
-  width: { sx: 150, lg: 200 },
+  width: { sx: 250, lg: 250 },
 }
 
 export default function BlockForm({
   blockProps,
+  exerciseProps,
 }: {
   blockProps: { blockDetails: BlockDetailsWithIds; modifiers: Modifier[] }
+  exerciseProps: { exercises: Exercise[] }
 }) {
-  const { blockName, durationInM, modifier, trainningId, blockId } =
+  const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
+  const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
   const [blockState, setBlockState] = useState({
     durationInM,
@@ -73,10 +85,24 @@ export default function BlockForm({
   }
   return (
     <>
-      <Typography variant="h6"> {blockName}</Typography>
-      <Box sx={{ display: "flex" }} key={`${trainningId}${blockId}`}>
+      <Box sx={{ display: "flex", mt: 2 }} key={`${trainningId}${blockId}`}>
+        <Typography sx={{ mr: 1, width: 90, textAlign: "center" }} variant="h6">
+          {blockNameMapping[blockName]}
+        </Typography>
+        <TextField
+          size="small"
+          error={validationErrors.reps !== undefined}
+          sx={{ ...inputSyle, width: { xs: 70, md: 110, lg: 150 } }}
+          id={"durationInM" + trainningId + blockId}
+          label="Duração (min)"
+          type="number"
+          name="durationInM"
+          value={blockState.durationInM}
+          onBlur={validate}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInput(e)}
+          autoComplete="duration"
+        />
         <Autocomplete
-          sx={{ ...inputSyle }}
           disablePortal
           id={"mod-combo" + trainningId + blockId}
           onChange={(_event: any, newValue: string | null) => {
@@ -101,6 +127,7 @@ export default function BlockForm({
           renderInput={(params) => (
             <TextField
               {...params}
+              sx={{ ...inputSyle, width: { xs: 160, md: 180, lg: 200 } }}
               error={validationErrors.name !== undefined}
               onBlur={validate}
               id="mod-txt"
@@ -110,22 +137,21 @@ export default function BlockForm({
             />
           )}
         />
-
-        <TextField
-          size="small"
-          error={validationErrors.reps !== undefined}
-          sx={{ inputSyle, width: 70 }}
-          id={"time-per-rep-in-M" + trainningId + blockId}
-          label="Duração (min)"
-          type="number"
-          name="durationInM"
-          value={blockState.durationInM}
-          onBlur={validate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInput(e)}
-          autoComplete="duration"
-        />
       </Box>
-      <Box>{/* <ExerciseForm /> */}</Box>
+      <Box>
+        {exercises.map((ex) => {
+          return (
+            <ExerciseForm
+              key={ex.id + ex.blockId + ex.trainningId}
+              exercise={ex}
+              exOptions={exerciseOptions}
+              onDeleteExercise={() => {
+                console.log("deleted")
+              }}
+            />
+          )
+        })}
+      </Box>
     </>
   )
 }

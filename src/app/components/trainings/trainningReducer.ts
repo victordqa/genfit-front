@@ -3,6 +3,7 @@ export default function trainningReducer(
   trainnings: TrainningWithIds,
   action: any
 ) {
+  console.log(action)
   switch (action.type) {
     case "load_trainnings": {
       return action.trainnings

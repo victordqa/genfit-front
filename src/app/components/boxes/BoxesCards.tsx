@@ -14,15 +14,6 @@ import ParametricModal from "../ParametricModal"
 import CreateBoxForm from "./CreateBoxForm"
 import { useRouter } from "next/navigation"
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-)
-
 type Box = {
   id: number
   name: string
@@ -55,7 +46,6 @@ export default function BoxesCards() {
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.listBoxesApi}`
     ).then((res) => {
       const statusCode = res.status
-      console.log(res)
       setLoading(false)
       if (statusCode === 200) {
         setBoxes(res.data.boxes)

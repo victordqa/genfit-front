@@ -9,7 +9,7 @@ import { exerciseFormValidation } from "../../../validation/validation"
 
 const inputSyle = {
   margin: "0.1rem",
-  width: { sm: 70, lg: 100 },
+  width: { xs: 60, md: 70, lg: 100 },
 }
 
 type Exercise = {
@@ -36,11 +36,13 @@ export default function ExerciseForm({
   exOptions: ExerciseOptions
   onDeleteExercise: () => void
 }) {
-  const { name, reps, load } = exercise
+  const { name, reps, load, blockId, trainningId } = exercise
   const [input, setInput] = useState({
-    name: name,
-    reps: reps,
-    load: load,
+    name,
+    reps,
+    load,
+    blockId,
+    trainningId,
   })
 
   type ValidationsErrors = {
@@ -60,7 +62,6 @@ export default function ExerciseForm({
   })
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(exercise.id)
     const inputName = e.target.name
     const inputValue = e.target.value
     setInput((oldInput) => {
@@ -74,23 +75,19 @@ export default function ExerciseForm({
     }
   }
 
-  const prepareHelperText = (errors: string[] | undefined) => {
-    if (errors) {
-      return errors.reduce((acc, err) => {
-        return acc + " " + err
-      }, "")
-    } else {
-      return ""
-    }
-  }
   return (
     <>
       <Box sx={{ display: "flex" }} key={exercise.id}>
         <Autocomplete
-          sx={{ ...inputSyle, width: "150px" }}
           disablePortal
           id="name-combo"
           onChange={(_event: any, newValue: string | null) => {
+            //get old exercise blockId TrainningId and id
+            const oldEx = input
+            const newExData = exOptions.filter((ex) => ex.name === newValue)[0]
+
+            //dispatch a change in ex giving old ex and new exercise
+            //
             setInput((oldInput: any) => {
               return { ...oldInput, name: newValue }
             })
@@ -112,6 +109,7 @@ export default function ExerciseForm({
           renderInput={(params) => (
             <TextField
               {...params}
+              sx={{ ...inputSyle, width: { xs: 170 } }}
               error={validationErrors.name !== undefined}
               onBlur={validate}
               id="name-txt"
