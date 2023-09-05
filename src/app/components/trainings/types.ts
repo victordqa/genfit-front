@@ -3,7 +3,7 @@ export type Exercise = {
   name: string
   reps: number
   load: number
-  timePerRepInS: string
+  time_per_rep_s: string
 }
 export type BlockDetails = {
   exercises: Exercise[]

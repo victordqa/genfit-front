@@ -16,6 +16,7 @@ import {
   TrainningWithIds,
   Modifier,
   ExercisesWithIds,
+  Exercise,
 } from "./types"
 import trainningReducer from "./trainningReducer"
 import { usePathname } from "next/navigation"
@@ -53,7 +54,7 @@ export default function TrainningForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [trainnings, dispatch] = useReducer(trainningReducer, initialState)
-  const [exercises, setExercises] = useState([])
+  const [exercises, setExercises] = useState<Exercise[]>([])
   const [modifiers, setModifiers] = useState<Modifier[]>([
     { id: 0, name: "", max_candidates: 0, min_candidates: 0 },
   ])
@@ -69,7 +70,7 @@ export default function TrainningForm() {
 
   const handleChangeExercise = (
     oldExercise: ExercisesWithIds,
-    newExercise: ExercisesWithIds
+    newExercise: Exercise
   ) => {
     dispatch({
       type: "change_exercise",
@@ -144,7 +145,7 @@ export default function TrainningForm() {
                 return (
                   <BlockForm
                     key={blockName + trainning.trainningId}
-                    exerciseProps={{ exercises }}
+                    exerciseProps={{ exercises, handleChangeExercise }}
                     blockProps={{ blockDetails, modifiers }}
                   />
                 )

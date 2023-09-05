@@ -16,7 +16,12 @@ import {
   ValidationsErrors,
 } from "../../../validation/validation"
 import ExerciseForm from "./ExerciseForm"
-import { Exercise, BlockDetailsWithIds, Modifier } from "./types"
+import {
+  Exercise,
+  BlockDetailsWithIds,
+  Modifier,
+  ExercisesWithIds,
+} from "./types"
 
 type BlockNameMapping = {
   [key: string]: string
@@ -37,10 +42,17 @@ export default function BlockForm({
   exerciseProps,
 }: {
   blockProps: { blockDetails: BlockDetailsWithIds; modifiers: Modifier[] }
-  exerciseProps: { exercises: Exercise[] }
+  exerciseProps: {
+    exercises: Exercise[]
+    handleChangeExercise: (
+      oldExercise: ExercisesWithIds,
+      newExercise: Exercise
+    ) => void
+  }
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
+  const { handleChangeExercise } = exerciseProps
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
   const [blockState, setBlockState] = useState({
@@ -148,6 +160,7 @@ export default function BlockForm({
               onDeleteExercise={() => {
                 console.log("deleted")
               }}
+              handleChangeExercise={handleChangeExercise}
             />
           )
         })}

@@ -6,43 +6,39 @@ import Box from "@mui/material/Box"
 import { AlertColor, Autocomplete, Chip, TextField } from "@mui/material"
 
 import { exerciseFormValidation } from "../../../validation/validation"
+import { Exercise, ExercisesWithIds } from "./types"
 
 const inputSyle = {
   margin: "0.1rem",
   width: { xs: 60, md: 70, lg: 100 },
 }
 
-type Exercise = {
-  id: number
-  name: string
-  reps: number
-  load: number
-  trainningId: number
-  blockId: number
-}
-type ExerciseOptions = {
-  id: number
-  name: string
-  reps: number
-  load: number
-}[]
+type ExerciseOptions = Exercise[]
 
 export default function ExerciseForm({
   exercise,
   exOptions,
   onDeleteExercise,
+  handleChangeExercise,
 }: {
-  exercise: Exercise
+  exercise: ExercisesWithIds
   exOptions: ExerciseOptions
   onDeleteExercise: () => void
+  handleChangeExercise: (
+    oldExercise: ExercisesWithIds,
+    newExercise: Exercise
+  ) => void
 }) {
-  const { name, reps, load, blockId, trainningId } = exercise
+  const { name, reps, load, blockId, trainningId, id, time_per_rep_s } =
+    exercise
   const [input, setInput] = useState({
+    id,
     name,
     reps,
     load,
     blockId,
     trainningId,
+    time_per_rep_s,
   })
 
   type ValidationsErrors = {
@@ -82,12 +78,10 @@ export default function ExerciseForm({
           disablePortal
           id="name-combo"
           onChange={(_event: any, newValue: string | null) => {
-            //get old exercise blockId TrainningId and id
             const oldEx = input
             const newExData = exOptions.filter((ex) => ex.name === newValue)[0]
 
-            //dispatch a change in ex giving old ex and new exercise
-            //
+            handleChangeExercise(oldEx, newExData)
             setInput((oldInput: any) => {
               return { ...oldInput, name: newValue }
             })
