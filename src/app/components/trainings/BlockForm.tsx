@@ -20,7 +20,7 @@ import {
   Exercise,
   BlockDetailsWithIds,
   Modifier,
-  ExercisesWithIds,
+  ExerciseWithIds,
 } from "./types"
 
 type BlockNameMapping = {
@@ -45,14 +45,15 @@ export default function BlockForm({
   exerciseProps: {
     exercises: Exercise[]
     handleChangeExercise: (
-      oldExercise: ExercisesWithIds,
+      oldExercise: ExerciseWithIds,
       newExercise: Exercise
     ) => void
+    handleDeleteExercise: (exercise: ExerciseWithIds) => void
   }
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
-  const { handleChangeExercise } = exerciseProps
+  const { handleChangeExercise, handleDeleteExercise } = exerciseProps
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
   const [blockState, setBlockState] = useState({
@@ -95,6 +96,7 @@ export default function BlockForm({
       return ""
     }
   }
+  console.log("exercises ", exercises)
   return (
     <>
       <Box sx={{ display: "flex", mt: 2 }} key={`${trainningId}${blockId}`}>
@@ -157,9 +159,7 @@ export default function BlockForm({
               key={ex.id + ex.blockId + ex.trainningId}
               exercise={ex}
               exOptions={exerciseOptions}
-              onDeleteExercise={() => {
-                console.log("deleted")
-              }}
+              handleDeleteExercise={handleDeleteExercise}
               handleChangeExercise={handleChangeExercise}
             />
           )

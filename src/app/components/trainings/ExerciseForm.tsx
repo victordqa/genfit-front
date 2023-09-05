@@ -3,10 +3,17 @@ import * as React from "react"
 import { useState } from "react"
 import Box from "@mui/material/Box"
 
-import { AlertColor, Autocomplete, Chip, TextField } from "@mui/material"
+import {
+  AlertColor,
+  Autocomplete,
+  Button,
+  Chip,
+  TextField,
+} from "@mui/material"
 
 import { exerciseFormValidation } from "../../../validation/validation"
-import { Exercise, ExercisesWithIds } from "./types"
+import { Exercise, ExerciseWithIds } from "./types"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 const inputSyle = {
   margin: "0.1rem",
@@ -18,20 +25,20 @@ type ExerciseOptions = Exercise[]
 export default function ExerciseForm({
   exercise,
   exOptions,
-  onDeleteExercise,
+  handleDeleteExercise,
   handleChangeExercise,
 }: {
-  exercise: ExercisesWithIds
+  exercise: ExerciseWithIds
   exOptions: ExerciseOptions
-  onDeleteExercise: () => void
+  handleDeleteExercise: (exercise: ExerciseWithIds) => void
   handleChangeExercise: (
-    oldExercise: ExercisesWithIds,
+    oldExercise: ExerciseWithIds,
     newExercise: Exercise
   ) => void
 }) {
   const { name, reps, load, blockId, trainningId, id, time_per_rep_s } =
     exercise
-  const [input, setInput] = useState({
+  const [input, setInput] = useState<ExerciseWithIds | null>({
     id,
     name,
     reps,
@@ -40,6 +47,8 @@ export default function ExerciseForm({
     trainningId,
     time_per_rep_s,
   })
+
+  const [showBin, setShowBin] = useState("none")
 
   type ValidationsErrors = {
     name: string[] | undefined
@@ -60,7 +69,7 @@ export default function ExerciseForm({
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name
     const inputValue = e.target.value
-    setInput((oldInput) => {
+    setInput((oldInput: any) => {
       return { ...oldInput, [inputName]: inputValue }
     })
   }
@@ -73,74 +82,103 @@ export default function ExerciseForm({
 
   return (
     <>
-      <Box sx={{ display: "flex" }} key={exercise.id}>
-        <Autocomplete
-          disablePortal
-          id="name-combo"
-          onChange={(_event: any, newValue: string | null) => {
-            const oldEx = input
-            const newExData = exOptions.filter((ex) => ex.name === newValue)[0]
+      {input && (
+        <Box
+          sx={{ display: "flex" }}
+          key={exercise.id}
+          onMouseEnter={() => setShowBin("block")}
+          onMouseLeave={() => setShowBin("none")}
+        >
+          <Autocomplete
+            disablePortal
+            id="name-combo"
+            onChange={(_event: any, newValue: string | null) => {
+              const oldEx = input
+              const newExData = exOptions.filter(
+                (ex) => ex.name === newValue
+              )[0]
 
-            handleChangeExercise(oldEx, newExData)
-            setInput((oldInput: any) => {
-              return { ...oldInput, name: newValue }
-            })
-          }}
-          value={input.name}
-          options={exOptions.map((ex) => ex.name)}
-          renderOption={(props, option) => {
-            return (
-              <li {...props} key={option}>
-                {option}
-              </li>
-            )
-          }}
-          renderTags={(tagValue, getTagProps) => {
-            return tagValue.map((option, index) => (
-              <Chip {...getTagProps({ index })} key={option} label={option} />
-            ))
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{ ...inputSyle, width: { xs: 170 } }}
-              error={validationErrors.name !== undefined}
-              onBlur={validate}
-              id="name-txt"
-              label="Exercicio"
-              name="name"
-              size="small"
-            />
-          )}
-        />
+              handleChangeExercise(oldEx, newExData)
+              setInput((oldInput: any) => {
+                return {
+                  ...oldInput,
+                  name: newValue,
+                  id: newExData.id,
+                  time_per_rep_s: newExData.time_per_rep_s,
+                }
+              })
+            }}
+            value={input.name}
+            options={exOptions.map((ex) => ex.name)}
+            renderOption={(props, option) => {
+              return (
+                <li {...props} key={option}>
+                  {option}
+                </li>
+              )
+            }}
+            renderTags={(tagValue, getTagProps) => {
+              return tagValue.map((option, index) => (
+                <Chip {...getTagProps({ index })} key={option} label={option} />
+              ))
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                sx={{ ...inputSyle, width: { xs: 170 } }}
+                error={validationErrors.name !== undefined}
+                onBlur={validate}
+                id="name-txt"
+                label="Exercicio"
+                name="name"
+                size="small"
+              />
+            )}
+          />
 
-        <TextField
-          size="small"
-          error={validationErrors.reps !== undefined}
-          sx={inputSyle}
-          id="reps"
-          label="Reps"
-          type="number"
-          name="reps"
-          value={input.reps}
-          onBlur={validate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInput(e)}
-          autoComplete="reps"
-        />
-        <TextField
-          size="small"
-          error={validationErrors.load !== undefined}
-          sx={inputSyle}
-          id="load"
-          label="Carga"
-          type="number"
-          autoComplete="load"
-          name="load"
-          value={input.load}
-          onBlur={validate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInput(e)}
-        />
-      </Box>
+          <TextField
+            size="small"
+            error={validationErrors.reps !== undefined}
+            sx={inputSyle}
+            id="reps"
+            label="Reps"
+            type="number"
+            name="reps"
+            value={input.reps}
+            onBlur={validate}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleInput(e)
+            }
+            autoComplete="reps"
+          />
+          <TextField
+            size="small"
+            error={validationErrors.load !== undefined}
+            sx={inputSyle}
+            id="load"
+            label="Carga"
+            type="number"
+            autoComplete="load"
+            name="load"
+            value={input.load}
+            onBlur={validate}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleInput(e)
+            }
+          />
+
+          <Button
+            sx={{ display: showBin }}
+            type="button"
+            onClick={() => {
+              setInput(null)
+              handleDeleteExercise(input)
+            }}
+          >
+            <DeleteIcon sx={{ color: "rgb(79, 75, 64)" }} />
+          </Button>
+        </Box>
+      )}
     </>
   )
 }

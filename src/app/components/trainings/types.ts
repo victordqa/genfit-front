@@ -20,7 +20,7 @@ export type Modifier = {
   max_candidates: number
 }
 
-export interface ExercisesWithIds extends Exercise {
+export interface ExerciseWithIds extends Exercise {
   blockId: number
   trainningId: number
 }
@@ -28,7 +28,7 @@ export interface ExercisesWithIds extends Exercise {
 export interface BlockDetailsWithIds extends BlockDetails {
   trainningId: number
   blockName: string
-  exercises: ExercisesWithIds[]
+  exercises: ExerciseWithIds[]
 }
 
 export type BlockDetailsFromApi = {

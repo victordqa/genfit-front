@@ -4,7 +4,6 @@ export default function trainningReducer(
   trainnings: TrainningWithIds[],
   action: any
 ) {
-  console.log(action)
   switch (action.type) {
     case "load_trainnings": {
       return action.trainnings
@@ -27,6 +26,27 @@ export default function trainningReducer(
           ex.time_per_rep_s = newExercise.time_per_rep_s
         }
       })
+      return trainnings
+    }
+
+    case "delete_exercise": {
+      const { exercise } = action
+      const trainningId = exercise.trainningId
+      const trainning = trainnings[trainningId]
+
+      const block = Object.entries(trainning.trainning).filter(
+        ([_blockName, blockDetails]) =>
+          blockDetails.blockId === exercise.blockId
+      )[0]
+      const blockDetails = block[1]
+      console.log("blockDetails.exercises ", blockDetails.exercises)
+      const filteredExs = blockDetails.exercises.filter(
+        (ex) => ex.id !== exercise.id
+      )
+      blockDetails.exercises = filteredExs
+
+      console.log("trainnings  ", trainnings)
+
       return trainnings
     }
 

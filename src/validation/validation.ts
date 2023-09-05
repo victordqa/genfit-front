@@ -17,7 +17,7 @@ type ExerciseFormInput = {
   name: string
   reps: number
   load: number
-}
+} | null
 
 type BlockFormInput = {
   modifier: string

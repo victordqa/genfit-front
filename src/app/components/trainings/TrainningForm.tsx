@@ -15,7 +15,7 @@ import {
   TrainningFromApi,
   TrainningWithIds,
   Modifier,
-  ExercisesWithIds,
+  ExerciseWithIds,
   Exercise,
 } from "./types"
 import trainningReducer from "./trainningReducer"
@@ -69,13 +69,20 @@ export default function TrainningForm() {
   }
 
   const handleChangeExercise = (
-    oldExercise: ExercisesWithIds,
+    oldExercise: ExerciseWithIds,
     newExercise: Exercise
   ) => {
     dispatch({
       type: "change_exercise",
       oldExercise,
       newExercise,
+    })
+  }
+
+  const handleDeleteExercise = (exercise: ExerciseWithIds) => {
+    dispatch({
+      type: "delete_exercise",
+      exercise,
     })
   }
 
@@ -145,7 +152,11 @@ export default function TrainningForm() {
                 return (
                   <BlockForm
                     key={blockName + trainning.trainningId}
-                    exerciseProps={{ exercises, handleChangeExercise }}
+                    exerciseProps={{
+                      exercises,
+                      handleChangeExercise,
+                      handleDeleteExercise,
+                    }}
                     blockProps={{ blockDetails, modifiers }}
                   />
                 )
