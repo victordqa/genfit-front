@@ -96,7 +96,6 @@ export default function BlockForm({
       return ""
     }
   }
-  console.log("exercises ", exercises)
   return (
     <>
       <Box sx={{ display: "flex", mt: 2 }} key={`${trainningId}${blockId}`}>

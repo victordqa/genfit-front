@@ -39,13 +39,10 @@ export default function trainningReducer(
           blockDetails.blockId === exercise.blockId
       )[0]
       const blockDetails = block[1]
-      console.log("blockDetails.exercises ", blockDetails.exercises)
       const filteredExs = blockDetails.exercises.filter(
         (ex) => ex.id !== exercise.id
       )
       blockDetails.exercises = filteredExs
-
-      console.log("trainnings  ", trainnings)
 
       return trainnings
     }

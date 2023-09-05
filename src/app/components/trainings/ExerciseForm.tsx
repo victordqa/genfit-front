@@ -88,9 +88,12 @@ export default function ExerciseForm({
           key={exercise.id}
           onMouseEnter={() => setShowBin("block")}
           onMouseLeave={() => setShowBin("none")}
+          onBlur={() => setShowBin("none")}
+          onFocus={() => setShowBin("block")}
         >
           <Autocomplete
             disablePortal
+            disableClearable
             id="name-combo"
             onChange={(_event: any, newValue: string | null) => {
               const oldEx = input
@@ -168,7 +171,11 @@ export default function ExerciseForm({
           />
 
           <Button
-            sx={{ display: showBin }}
+            sx={{
+              display: showBin,
+              minWidth: 30,
+              width: 30,
+            }}
             type="button"
             onClick={() => {
               setInput(null)
