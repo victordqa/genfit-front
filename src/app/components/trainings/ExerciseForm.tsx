@@ -84,7 +84,7 @@ export default function ExerciseForm({
     <>
       {input && (
         <Box
-          sx={{ display: "flex" }}
+          sx={{ display: "flex", justifyContent: "center" }}
           key={exercise.id}
           onMouseEnter={() => setShowBin("block")}
           onMouseLeave={() => setShowBin("none")}
@@ -128,7 +128,7 @@ export default function ExerciseForm({
             renderInput={(params) => (
               <TextField
                 {...params}
-                sx={{ ...inputSyle, width: { xs: 170 } }}
+                sx={{ ...inputSyle, width: { xs: 170, md: 200, lg: 230 } }}
                 error={validationErrors.name !== undefined}
                 onBlur={validate}
                 id="name-txt"
@@ -170,20 +170,26 @@ export default function ExerciseForm({
             }
           />
 
-          <Button
+          <Box
             sx={{
-              display: showBin,
-              minWidth: 30,
               width: 30,
             }}
-            type="button"
-            onClick={() => {
-              setInput(null)
-              handleDeleteExercise(input)
-            }}
           >
-            <DeleteIcon sx={{ color: "rgb(79, 75, 64)" }} />
-          </Button>
+            <Button
+              sx={{
+                display: showBin,
+                minWidth: 30,
+                width: 30,
+              }}
+              type="button"
+              onClick={() => {
+                setInput(null)
+                handleDeleteExercise(input)
+              }}
+            >
+              <DeleteIcon sx={{ color: "rgb(79, 75, 64)" }} />
+            </Button>
+          </Box>
         </Box>
       )}
     </>

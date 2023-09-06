@@ -86,6 +86,14 @@ export default function TrainningForm() {
     })
   }
 
+  const handleAddExercise = (trainningId: number, blockId: number) => {
+    dispatch({
+      type: "add_exercise",
+      trainningId,
+      blockId,
+    })
+  }
+
   const handleApiCalls = async (apiCalls: Promise<UseHttpResponse>[]) => {
     const responses = await Promise.all(apiCalls)
     const haveAllPassed = responses.every((res) => res.status === 200)
@@ -157,7 +165,7 @@ export default function TrainningForm() {
                       handleChangeExercise,
                       handleDeleteExercise,
                     }}
-                    blockProps={{ blockDetails, modifiers }}
+                    blockProps={{ blockDetails, modifiers, handleAddExercise }}
                   />
                 )
               }

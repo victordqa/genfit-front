@@ -2,10 +2,12 @@
 import * as React from "react"
 import { useState } from "react"
 import Box from "@mui/material/Box"
+import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 import {
   AlertColor,
   Autocomplete,
+  Button,
   Chip,
   TextField,
   Typography,
@@ -41,7 +43,11 @@ export default function BlockForm({
   blockProps,
   exerciseProps,
 }: {
-  blockProps: { blockDetails: BlockDetailsWithIds; modifiers: Modifier[] }
+  blockProps: {
+    blockDetails: BlockDetailsWithIds
+    modifiers: Modifier[]
+    handleAddExercise: (trainningId: number, blockId: number) => void
+  }
   exerciseProps: {
     exercises: Exercise[]
     handleChangeExercise: (
@@ -53,6 +59,7 @@ export default function BlockForm({
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
+  const handleAddExercise = blockProps.handleAddExercise
   const { handleChangeExercise, handleDeleteExercise } = exerciseProps
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
@@ -98,7 +105,10 @@ export default function BlockForm({
   }
   return (
     <>
-      <Box sx={{ display: "flex", mt: 2 }} key={`${trainningId}${blockId}`}>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", mt: 2 }}
+        key={`${trainningId}${blockId}`}
+      >
         <Typography sx={{ mr: 1, width: 90, textAlign: "center" }} variant="h6">
           {blockNameMapping[blockName]}
         </Typography>
@@ -163,6 +173,11 @@ export default function BlockForm({
             />
           )
         })}
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <Button type="button">
+            <AddCircleIcon />
+          </Button>
+        </Box>
       </Box>
     </>
   )
