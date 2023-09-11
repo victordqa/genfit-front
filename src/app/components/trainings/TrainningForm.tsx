@@ -78,10 +78,10 @@ export default function TrainningForm() {
       newExercise,
     })
   }
-  const handleChangeReps = (exercise: ExerciseWithIds | null) => {
+  const handleChangeRepsAndLoad = (exercise: ExerciseWithIds | null) => {
     if (exercise) {
       dispatch({
-        type: "change_reps",
+        type: "change_reps_and_load",
         exercise,
       })
     }
@@ -178,7 +178,7 @@ export default function TrainningForm() {
                       exercises,
                       handleChangeExercise,
                       handleDeleteExercise,
-                      handleChangeReps,
+                      handleChangeRepsAndLoad,
                     }}
                     blockProps={{ blockDetails, modifiers, handleAddExercise }}
                   />

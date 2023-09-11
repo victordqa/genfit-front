@@ -28,7 +28,7 @@ export default function ExerciseForm({
   exIndex,
   handleDeleteExercise,
   handleChangeExercise,
-  handleChangeReps,
+  handleChangeRepsAndLoad,
 }: {
   exercise: ExerciseWithIds
   exIndex: number
@@ -38,7 +38,7 @@ export default function ExerciseForm({
     oldExercise: ExerciseWithIds,
     newExercise: Exercise
   ) => void
-  handleChangeReps: (exercise: ExerciseWithIds | null) => void
+  handleChangeRepsAndLoad: (exercise: ExerciseWithIds | null) => void
 }) {
   const { name, reps, load, blockId, trainningId, id, time_per_rep_s } =
     exercise
@@ -84,7 +84,7 @@ export default function ExerciseForm({
   }
 
   useEffect(() => {
-    handleChangeReps(input)
+    handleChangeRepsAndLoad(input)
   }, [input])
 
   return (

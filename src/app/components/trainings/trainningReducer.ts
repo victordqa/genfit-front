@@ -9,9 +9,10 @@ export default function trainningReducer(
       return action.trainnings
     }
 
-    case "change_reps": {
+    case "change_reps_and_load": {
       const { exercise } = action
       const reps = exercise.reps
+      const load = exercise.load
       const trainningId = exercise.trainningId as number
       const trainningsClone = JSON.parse(JSON.stringify(trainnings))
       const trainning = trainningsClone[trainningId]
@@ -23,12 +24,13 @@ export default function trainningReducer(
       const blockDetails = block[1] as BlockDetailsWithIds
       const newExercises = blockDetails.exercises.map((ex) => {
         if (ex.id === exercise.id) {
-          return { ...ex, reps: parseInt(reps) }
+          return { ...ex, reps: parseInt(reps), load: parseFloat(load) }
         } else {
           return ex
         }
       })
       blockDetails.exercises = newExercises
+      console.log(blockDetails)
       return trainningsClone
     }
 

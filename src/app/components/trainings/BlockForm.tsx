@@ -59,14 +59,17 @@ export default function BlockForm({
       newExercise: Exercise
     ) => void
     handleDeleteExercise: (exercise: ExerciseWithIds, exIndex: number) => void
-    handleChangeReps: (exercise: ExerciseWithIds | null) => void
+    handleChangeRepsAndLoad: (exercise: ExerciseWithIds | null) => void
   }
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
   const handleAddExercise = blockProps.handleAddExercise
-  const { handleChangeExercise, handleDeleteExercise, handleChangeReps } =
-    exerciseProps
+  const {
+    handleChangeExercise,
+    handleDeleteExercise,
+    handleChangeRepsAndLoad,
+  } = exerciseProps
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
   const [blockState, setBlockState] = useState({
@@ -173,7 +176,7 @@ export default function BlockForm({
               exOptions={exerciseOptions}
               handleDeleteExercise={handleDeleteExercise}
               handleChangeExercise={handleChangeExercise}
-              handleChangeReps={handleChangeReps}
+              handleChangeRepsAndLoad={handleChangeRepsAndLoad}
             />
           )
         })}
