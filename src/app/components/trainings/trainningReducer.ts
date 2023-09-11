@@ -1,4 +1,4 @@
-import { TrainningWithIds } from "./types"
+import { TrainningWithIds, BlockDetailsWithIds } from "./types"
 
 export default function trainningReducer(
   trainnings: TrainningWithIds[],
@@ -9,16 +9,40 @@ export default function trainningReducer(
       return action.trainnings
     }
 
+    case "change_reps": {
+      const { exercise } = action
+      const reps = exercise.reps
+      const trainningId = exercise.trainningId as number
+      const trainningsClone = JSON.parse(JSON.stringify(trainnings))
+      const trainning = trainningsClone[trainningId]
+
+      const block = Object.entries(trainning.trainning).filter(
+        ([_blockName, blockDetails]: any) =>
+          blockDetails.blockId === exercise.blockId
+      )[0]
+      const blockDetails = block[1] as BlockDetailsWithIds
+      const newExercises = blockDetails.exercises.map((ex) => {
+        if (ex.id === exercise.id) {
+          return { ...ex, reps: parseInt(reps) }
+        } else {
+          return ex
+        }
+      })
+      blockDetails.exercises = newExercises
+      return trainningsClone
+    }
+
     case "change_exercise": {
       const { oldExercise, newExercise } = action
       const trainningId = oldExercise.trainningId as number
-      const trainning = trainnings[trainningId]
+      const trainningsClone = JSON.parse(JSON.stringify(trainnings))
+      const trainning = trainningsClone[trainningId]
 
       const block = Object.entries(trainning.trainning).filter(
-        ([_blockName, blockDetails]) =>
+        ([_blockName, blockDetails]: any) =>
           blockDetails.blockId === oldExercise.blockId
       )[0]
-      const blockDetails = block[1]
+      const blockDetails = block[1] as BlockDetailsWithIds
       blockDetails.exercises.forEach((ex) => {
         if (ex.id === oldExercise.id) {
           ex.id = newExercise.id
@@ -26,25 +50,47 @@ export default function trainningReducer(
           ex.time_per_rep_s = newExercise.time_per_rep_s
         }
       })
-      return trainnings
+      return trainningsClone
     }
 
     case "delete_exercise": {
-      const { exercise } = action
+      const { exercise, exIndex } = action
       const trainningId = exercise.trainningId
-      const trainning = trainnings[trainningId]
+      const trainningsClone = JSON.parse(JSON.stringify(trainnings))
+      const trainning = trainningsClone[trainningId]
 
       const block = Object.entries(trainning.trainning).filter(
-        ([_blockName, blockDetails]) =>
+        ([_blockName, blockDetails]: any) =>
           blockDetails.blockId === exercise.blockId
       )[0]
-      const blockDetails = block[1]
-      const filteredExs = blockDetails.exercises.filter(
-        (ex) => ex.id !== exercise.id
-      )
-      blockDetails.exercises = filteredExs
+      const blockDetails = block[1] as BlockDetailsWithIds
+      blockDetails.exercises.splice(exIndex, 1)
 
-      return trainnings
+      return trainningsClone
+    }
+
+    case "add_exercise": {
+      const { trainningId, blockId, exOptions } = action
+      const trainningsClone = JSON.parse(JSON.stringify(trainnings))
+      const trainning = trainningsClone[trainningId]
+
+      const block = Object.entries(trainning.trainning).filter(
+        ([_blockName, blockDetails]: any) => blockDetails.blockId === blockId
+      )[0]
+      const blockDetails = block[1] as BlockDetailsWithIds
+
+      //get from user exercises list
+      const exOption = exOptions[0]
+
+      blockDetails.exercises.push({
+        ...exOption,
+        blockId,
+        trainningId,
+        reps: 10,
+        load: 0.5,
+      })
+
+      return trainningsClone
     }
 
     default: {

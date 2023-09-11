@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Box from "@mui/material/Box"
 
 import {
@@ -25,16 +25,20 @@ type ExerciseOptions = Exercise[]
 export default function ExerciseForm({
   exercise,
   exOptions,
+  exIndex,
   handleDeleteExercise,
   handleChangeExercise,
+  handleChangeReps,
 }: {
   exercise: ExerciseWithIds
+  exIndex: number
   exOptions: ExerciseOptions
-  handleDeleteExercise: (exercise: ExerciseWithIds) => void
+  handleDeleteExercise: (exercise: ExerciseWithIds, exIndex: number) => void
   handleChangeExercise: (
     oldExercise: ExerciseWithIds,
     newExercise: Exercise
   ) => void
+  handleChangeReps: (exercise: ExerciseWithIds | null) => void
 }) {
   const { name, reps, load, blockId, trainningId, id, time_per_rep_s } =
     exercise
@@ -47,7 +51,6 @@ export default function ExerciseForm({
     trainningId,
     time_per_rep_s,
   })
-
   const [showBin, setShowBin] = useState("none")
 
   type ValidationsErrors = {
@@ -80,21 +83,23 @@ export default function ExerciseForm({
     }
   }
 
+  useEffect(() => {
+    handleChangeReps(input)
+  }, [input])
+
   return (
     <>
       {input && (
         <Box
           sx={{ display: "flex", justifyContent: "center" }}
-          key={exercise.id}
+          key={exercise.id + exIndex}
           onMouseEnter={() => setShowBin("block")}
           onMouseLeave={() => setShowBin("none")}
-          onBlur={() => setShowBin("none")}
-          onFocus={() => setShowBin("block")}
         >
           <Autocomplete
             disablePortal
             disableClearable
-            id="name-combo"
+            id={"name-combo" + trainningId + blockId + exIndex}
             onChange={(_event: any, newValue: string | null) => {
               const oldEx = input
               const newExData = exOptions.filter(
@@ -102,14 +107,6 @@ export default function ExerciseForm({
               )[0]
 
               handleChangeExercise(oldEx, newExData)
-              setInput((oldInput: any) => {
-                return {
-                  ...oldInput,
-                  name: newValue,
-                  id: newExData.id,
-                  time_per_rep_s: newExData.time_per_rep_s,
-                }
-              })
             }}
             value={input.name}
             options={exOptions.map((ex) => ex.name)}
@@ -131,8 +128,8 @@ export default function ExerciseForm({
                 sx={{ ...inputSyle, width: { xs: 170, md: 200, lg: 230 } }}
                 error={validationErrors.name !== undefined}
                 onBlur={validate}
-                id="name-txt"
-                label="Exercicio"
+                id={"name-txt" + trainningId + blockId + exIndex}
+                label={exIndex === 0 ? "Exercicio" : ""}
                 name="name"
                 size="small"
               />
@@ -143,23 +140,23 @@ export default function ExerciseForm({
             size="small"
             error={validationErrors.reps !== undefined}
             sx={inputSyle}
-            id="reps"
-            label="Reps"
+            id={"reps" + trainningId + blockId + exIndex}
+            label={exIndex === 0 ? "Reps" : ""}
             type="number"
             name="reps"
             value={input.reps}
             onBlur={validate}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleInput(e)
-            }
+            }}
             autoComplete="reps"
           />
           <TextField
             size="small"
             error={validationErrors.load !== undefined}
             sx={inputSyle}
-            id="load"
-            label="Carga"
+            id={"load" + trainningId + blockId + exIndex}
+            label={exIndex === 0 ? "Carga" : ""}
             type="number"
             autoComplete="load"
             name="load"
@@ -183,8 +180,7 @@ export default function ExerciseForm({
               }}
               type="button"
               onClick={() => {
-                setInput(null)
-                handleDeleteExercise(input)
+                handleDeleteExercise(input, exIndex)
               }}
             >
               <DeleteIcon sx={{ color: "rgb(79, 75, 64)" }} />

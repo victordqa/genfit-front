@@ -78,19 +78,33 @@ export default function TrainningForm() {
       newExercise,
     })
   }
+  const handleChangeReps = (exercise: ExerciseWithIds | null) => {
+    if (exercise) {
+      dispatch({
+        type: "change_reps",
+        exercise,
+      })
+    }
+  }
 
-  const handleDeleteExercise = (exercise: ExerciseWithIds) => {
+  const handleDeleteExercise = (exercise: ExerciseWithIds, exIndex: number) => {
     dispatch({
       type: "delete_exercise",
       exercise,
+      exIndex,
     })
   }
 
-  const handleAddExercise = (trainningId: number, blockId: number) => {
+  const handleAddExercise = (
+    trainningId: number,
+    blockId: number,
+    exOptions: Exercise[]
+  ) => {
     dispatch({
       type: "add_exercise",
       trainningId,
       blockId,
+      exOptions,
     })
   }
 
@@ -164,6 +178,7 @@ export default function TrainningForm() {
                       exercises,
                       handleChangeExercise,
                       handleDeleteExercise,
+                      handleChangeReps,
                     }}
                     blockProps={{ blockDetails, modifiers, handleAddExercise }}
                   />

@@ -46,7 +46,11 @@ export default function BlockForm({
   blockProps: {
     blockDetails: BlockDetailsWithIds
     modifiers: Modifier[]
-    handleAddExercise: (trainningId: number, blockId: number) => void
+    handleAddExercise: (
+      trainningId: number,
+      blockId: number,
+      exOptions: Exercise[]
+    ) => void
   }
   exerciseProps: {
     exercises: Exercise[]
@@ -54,20 +58,21 @@ export default function BlockForm({
       oldExercise: ExerciseWithIds,
       newExercise: Exercise
     ) => void
-    handleDeleteExercise: (exercise: ExerciseWithIds) => void
+    handleDeleteExercise: (exercise: ExerciseWithIds, exIndex: number) => void
+    handleChangeReps: (exercise: ExerciseWithIds | null) => void
   }
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
   const handleAddExercise = blockProps.handleAddExercise
-  const { handleChangeExercise, handleDeleteExercise } = exerciseProps
+  const { handleChangeExercise, handleDeleteExercise, handleChangeReps } =
+    exerciseProps
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
   const [blockState, setBlockState] = useState({
     durationInM,
     modifier,
   })
-
   type Alert =
     | { title: string; message: string; severity: AlertColor }
     | undefined
@@ -105,10 +110,7 @@ export default function BlockForm({
   }
   return (
     <>
-      <Box
-        sx={{ display: "flex", justifyContent: "center", mt: 2 }}
-        key={`${trainningId}${blockId}`}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <Typography sx={{ mr: 1, width: 90, textAlign: "center" }} variant="h6">
           {blockNameMapping[blockName]}
         </Typography>
@@ -153,7 +155,7 @@ export default function BlockForm({
               sx={{ ...inputSyle, width: { xs: 160, md: 180, lg: 200 } }}
               error={validationErrors.name !== undefined}
               onBlur={validate}
-              id="mod-txt"
+              id={"mod-txt" + trainningId + blockId}
               label="Mod"
               name="mod"
               size="small"
@@ -162,19 +164,26 @@ export default function BlockForm({
         />
       </Box>
       <Box>
-        {exercises.map((ex) => {
+        {exercises.map((ex, index) => {
           return (
             <ExerciseForm
-              key={ex.id + ex.blockId + ex.trainningId}
+              key={"" + ex.id + ex.blockId + ex.trainningId + index}
               exercise={ex}
+              exIndex={index}
               exOptions={exerciseOptions}
               handleDeleteExercise={handleDeleteExercise}
               handleChangeExercise={handleChangeExercise}
+              handleChangeReps={handleChangeReps}
             />
           )
         })}
         <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <Button type="button">
+          <Button
+            type="button"
+            onClick={() =>
+              handleAddExercise(trainningId, blockId, exerciseOptions)
+            }
+          >
             <AddCircleIcon />
           </Button>
         </Box>
