@@ -8,6 +8,7 @@ import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
 import { usePost } from "../../hooks/useHttp"
 import routes from "../../routes"
 import { singUpFormValidation } from "../../validation/validation"
+import { AlertType } from "./trainings/types"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -28,10 +29,6 @@ export default function SignUpForm() {
     password_confirmation: string[] | undefined
   }
 
-  type Alert =
-    | { title: string; message: string; severity: AlertColor }
-    | undefined
-
   const [validationErrors, setValidationErrors] = useState<ValidationsErrors>({
     name: undefined,
     email: undefined,
@@ -40,7 +37,7 @@ export default function SignUpForm() {
   })
 
   const [isDisabled, setDisabled] = useState(false)
-  const [alert, setAlert] = useState<Alert>(undefined)
+  const [alert, setAlert] = useState<AlertType>(undefined)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name

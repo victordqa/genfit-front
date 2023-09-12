@@ -13,6 +13,7 @@ const routes = {
   suggestTrainningApi: "/trainnings/suggest",
   listCoachExsApi: "/exercises/list",
   listCoachModsApi: "/exercises/list-modifiers",
+  createTrainningApi: "/trainnings/create",
 }
 
 export const publicRoutes = [routes.home]

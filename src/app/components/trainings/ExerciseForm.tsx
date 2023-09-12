@@ -36,7 +36,8 @@ export default function ExerciseForm({
   handleDeleteExercise: (exercise: ExerciseWithIds, exIndex: number) => void
   handleChangeExercise: (
     oldExercise: ExerciseWithIds,
-    newExercise: Exercise
+    newExercise: Exercise,
+    exIndex: number
   ) => void
   handleChangeRepsAndLoad: (exercise: ExerciseWithIds | null) => void
 }) {
@@ -106,7 +107,7 @@ export default function ExerciseForm({
                 (ex) => ex.name === newValue
               )[0]
 
-              handleChangeExercise(oldEx, newExData)
+              handleChangeExercise(oldEx, newExData, exIndex)
             }}
             value={input.name}
             options={exOptions.map((ex) => ex.name)}

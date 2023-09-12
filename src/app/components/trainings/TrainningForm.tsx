@@ -21,6 +21,7 @@ import {
 import trainningReducer from "./trainningReducer"
 import { usePathname } from "next/navigation"
 import CircularProgress from "@mui/material/CircularProgress"
+import RegisterTrainningButton from "./RegisterTrainningButton"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -70,12 +71,14 @@ export default function TrainningForm() {
 
   const handleChangeExercise = (
     oldExercise: ExerciseWithIds,
-    newExercise: Exercise
+    newExercise: Exercise,
+    exIndex: number
   ) => {
     dispatch({
       type: "change_exercise",
       oldExercise,
       newExercise,
+      exIndex,
     })
   }
   const handleChangeRepsAndLoad = (exercise: ExerciseWithIds | null) => {
@@ -122,13 +125,12 @@ export default function TrainningForm() {
     }
   }
 
+  const boxId = parseInt(path.split("/")[2])
   useEffect(() => {
     setLoading(true)
     const apiCalls = [
       useGet(
-        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${
-          routes.suggestTrainningApi
-        }?quantity=2&boxId=${path.split("/")[2]}`
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.suggestTrainningApi}?quantity=1&boxId=${boxId}`
       ),
       useGet(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.listCoachExsApi}`
@@ -144,51 +146,64 @@ export default function TrainningForm() {
   let content = loading ? (
     <CircularProgress />
   ) : (
-    <form>
-      {trainnings.map((trainning: TrainningWithIds) => {
-        return (
-          <Box
-            key={trainning.trainningId}
-            sx={{
-              borderTop: "3px solid #121858",
-              borderBottom: "3px solid #121858",
-              width: { xs: "100%", md: 500, lg: 800 },
-              padding: 1,
-              pt: 2,
-              marginTop: { xs: 3, md: 5 },
-            }}
-          >
-            <Typography
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <RegisterTrainningButton trainnings={trainnings} boxId={boxId} />
+      <form>
+        {trainnings.map((trainning: TrainningWithIds) => {
+          return (
+            <Box
+              key={trainning.trainningId}
               sx={{
-                display: "inline",
-                backgroundColor: "#121858",
-                color: "white",
-                borderRadius: 10,
-                padding: 1.5,
+                borderTop: "3px solid #121858",
+                borderBottom: "3px solid #121858",
+                width: { xs: "100%", md: 500, lg: 800 },
+                padding: 1,
+                pt: 2,
+                marginTop: { xs: 3, md: 5 },
               }}
-              variant="h5"
-            >{`Dia ${trainning.trainningId + 1}`}</Typography>
+            >
+              <Typography
+                sx={{
+                  display: "inline",
+                  backgroundColor: "#121858",
+                  color: "white",
+                  borderRadius: 10,
+                  padding: 1.5,
+                }}
+                variant="h5"
+              >{`Dia ${trainning.trainningId + 1}`}</Typography>
 
-            {Object.entries(trainning.trainning).map(
-              ([blockName, blockDetails]) => {
-                return (
-                  <BlockForm
-                    key={blockName + trainning.trainningId}
-                    exerciseProps={{
-                      exercises,
-                      handleChangeExercise,
-                      handleDeleteExercise,
-                      handleChangeRepsAndLoad,
-                    }}
-                    blockProps={{ blockDetails, modifiers, handleAddExercise }}
-                  />
-                )
-              }
-            )}
-          </Box>
-        )
-      })}
-    </form>
+              {Object.entries(trainning.trainning).map(
+                ([blockName, blockDetails]) => {
+                  return (
+                    <BlockForm
+                      key={blockName + trainning.trainningId}
+                      exerciseProps={{
+                        exercises,
+                        handleChangeExercise,
+                        handleDeleteExercise,
+                        handleChangeRepsAndLoad,
+                      }}
+                      blockProps={{
+                        blockDetails,
+                        modifiers,
+                        handleAddExercise,
+                      }}
+                    />
+                  )
+                }
+              )}
+            </Box>
+          )
+        })}
+      </form>
+    </Box>
   )
 
   if (error)

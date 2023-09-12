@@ -43,7 +43,7 @@ const errorhandler = (error: any) => {
 
 export const usePost = async (
   body: {
-    [index: string]: string
+    [index: string]: any
   },
   url: string
 ) => {

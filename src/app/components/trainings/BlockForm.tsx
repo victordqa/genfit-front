@@ -56,7 +56,8 @@ export default function BlockForm({
     exercises: Exercise[]
     handleChangeExercise: (
       oldExercise: ExerciseWithIds,
-      newExercise: Exercise
+      newExercise: Exercise,
+      exIndex: number
     ) => void
     handleDeleteExercise: (exercise: ExerciseWithIds, exIndex: number) => void
     handleChangeRepsAndLoad: (exercise: ExerciseWithIds | null) => void

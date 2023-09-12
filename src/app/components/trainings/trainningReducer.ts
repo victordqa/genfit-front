@@ -30,12 +30,11 @@ export default function trainningReducer(
         }
       })
       blockDetails.exercises = newExercises
-      console.log(blockDetails)
       return trainningsClone
     }
 
     case "change_exercise": {
-      const { oldExercise, newExercise } = action
+      const { oldExercise, newExercise, exIndex } = action
       const trainningId = oldExercise.trainningId as number
       const trainningsClone = JSON.parse(JSON.stringify(trainnings))
       const trainning = trainningsClone[trainningId]
@@ -45,13 +44,13 @@ export default function trainningReducer(
           blockDetails.blockId === oldExercise.blockId
       )[0]
       const blockDetails = block[1] as BlockDetailsWithIds
-      blockDetails.exercises.forEach((ex) => {
-        if (ex.id === oldExercise.id) {
-          ex.id = newExercise.id
-          ex.name = newExercise.name
-          ex.time_per_rep_s = newExercise.time_per_rep_s
-        }
-      })
+
+      blockDetails.exercises[exIndex] = {
+        ...blockDetails.exercises[exIndex],
+        id: newExercise.id,
+        name: newExercise.name,
+        time_per_rep_s: newExercise.time_per_rep_s,
+      }
       return trainningsClone
     }
 

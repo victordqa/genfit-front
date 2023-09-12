@@ -1,3 +1,5 @@
+import { AlertColor } from "@mui/material"
+
 export type Exercise = {
   id: number
   name: string
@@ -52,3 +54,7 @@ export type TrainningWithIds = {
   trainningId: number
   trainning: { [blockName: string]: BlockDetailsWithIds }
 }
+
+export type AlertType =
+  | { title: string; message: string; severity: AlertColor }
+  | undefined
