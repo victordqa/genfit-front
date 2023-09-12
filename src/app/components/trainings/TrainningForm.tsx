@@ -22,6 +22,7 @@ import trainningReducer from "./trainningReducer"
 import { usePathname } from "next/navigation"
 import CircularProgress from "@mui/material/CircularProgress"
 import RegisterTrainningButton from "./RegisterTrainningButton"
+import { ReferenceChart } from "./ReferenceChart"
 
 const inputSyle = {
   margin: "0.5rem",
@@ -153,6 +154,7 @@ export default function TrainningForm() {
         justifyContent: "center",
       }}
     >
+      <ReferenceChart />
       <RegisterTrainningButton trainnings={trainnings} boxId={boxId} />
       <form>
         {trainnings.map((trainning: TrainningWithIds) => {

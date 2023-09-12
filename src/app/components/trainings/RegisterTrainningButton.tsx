@@ -17,7 +17,7 @@ export default function RegisterTrainningButton({
     })
 
     const req = { boxId, trainnings: parsedTrainnings }
-    console.log(req)
+
     return req
   }
 
