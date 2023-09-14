@@ -51,6 +51,12 @@ export default function BlockForm({
       blockId: number,
       exOptions: Exercise[]
     ) => void
+    handleChangeMod: (
+      trainningId: number,
+      blockId: number,
+      modifier: string,
+      modifierId: number
+    ) => void
   }
   exerciseProps: {
     exercises: Exercise[]
@@ -65,7 +71,7 @@ export default function BlockForm({
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
-  const handleAddExercise = blockProps.handleAddExercise
+  const { handleAddExercise, handleChangeMod } = blockProps
   const {
     handleChangeExercise,
     handleDeleteExercise,
@@ -101,17 +107,6 @@ export default function BlockForm({
     }
   }
 
-  //TODO get mods from db
-
-  const prepareHelperText = (errors: string[] | undefined) => {
-    if (errors) {
-      return errors.reduce((acc, err) => {
-        return acc + " " + err
-      }, "")
-    } else {
-      return ""
-    }
-  }
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
@@ -135,11 +130,12 @@ export default function BlockForm({
           disablePortal
           id={"mod-combo" + trainningId + blockId}
           onChange={(_event: any, newValue: string | null) => {
-            setBlockState((oldInput: any) => {
-              return { ...oldInput, modifier: newValue }
-            })
+            if (typeof newValue === "string") {
+              const [mod] = modifiers.filter((mod) => mod.name === newValue)
+              handleChangeMod(trainningId, blockId, newValue, mod.id)
+            }
           }}
-          value={blockState.modifier}
+          value={modifier}
           options={modifiers.map((mod) => mod.name)}
           renderOption={(props, option) => {
             return (

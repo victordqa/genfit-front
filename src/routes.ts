@@ -14,6 +14,7 @@ const routes = {
   listCoachExsApi: "/exercises/list",
   listCoachModsApi: "/exercises/list-modifiers",
   createTrainningApi: "/trainnings/create",
+  calcTrainningLoadsApi: "/trainnings/calc-recent-load",
 }
 
 export const publicRoutes = [routes.home]

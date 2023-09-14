@@ -51,6 +51,24 @@ export default function trainningReducer(
         name: newExercise.name,
         time_per_rep_s: newExercise.time_per_rep_s,
       }
+
+      return trainningsClone
+    }
+
+    case "change_mod": {
+      const { trainningId, blockId, modifier, modifierId } = action
+
+      const trainningsClone = JSON.parse(JSON.stringify(trainnings))
+      const trainning = trainningsClone[trainningId]
+
+      const block = Object.entries(trainning.trainning).filter(
+        ([_blockName, blockDetails]: any) => blockDetails.blockId === blockId
+      )[0]
+      const blockDetails = block[1] as BlockDetailsWithIds
+
+      blockDetails.modifier = modifier
+      blockDetails.modifierId = modifierId
+
       return trainningsClone
     }
 

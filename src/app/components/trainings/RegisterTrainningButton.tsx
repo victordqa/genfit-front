@@ -20,14 +20,13 @@ export default function RegisterTrainningButton({
 
     return req
   }
-
   const [isDisabled, setDisabled] = useState(false)
   const [alert, setAlert] = useState<AlertType>(undefined)
 
   const handleSend = async () => {
     setAlert(undefined)
     setDisabled(true)
-
+    console.log(trainnings)
     const res = await usePost(
       parseToBackEnd(trainnings),
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.createTrainningApi}`

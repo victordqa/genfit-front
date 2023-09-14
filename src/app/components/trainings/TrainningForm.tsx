@@ -82,6 +82,22 @@ export default function TrainningForm() {
       exIndex,
     })
   }
+
+  const handleChangeMod = (
+    trainningId: number,
+    blockId: number,
+    modifier: string,
+    modifierId: number
+  ) => {
+    dispatch({
+      type: "change_mod",
+      trainningId,
+      blockId,
+      modifier,
+      modifierId,
+    })
+  }
+
   const handleChangeRepsAndLoad = (exercise: ExerciseWithIds | null) => {
     if (exercise) {
       dispatch({
@@ -196,6 +212,7 @@ export default function TrainningForm() {
                         blockDetails,
                         modifiers,
                         handleAddExercise,
+                        handleChangeMod,
                       }}
                     />
                   )
