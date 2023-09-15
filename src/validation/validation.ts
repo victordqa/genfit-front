@@ -64,7 +64,7 @@ export const exerciseFormValidation = (input: ExerciseFormInput) => {
 export const blockFormValidation = (input: BlockFormInput) => {
   const rules = {
     modifier: "required|min:1|max:255",
-    durationInM: "required|integer|min:1|max:9999",
+    durationInM: "required|integer|min:0|max:9999",
   }
   let validation = new Validator(input, rules)
   validation.passes()

@@ -72,6 +72,24 @@ export default function trainningReducer(
       return trainningsClone
     }
 
+    case "change_duration": {
+      const { trainningId, blockId, duration } = action
+
+      const trainningsClone = JSON.parse(JSON.stringify(trainnings))
+      const trainning = trainningsClone[trainningId]
+
+      const block = Object.entries(trainning.trainning).filter(
+        ([_blockName, blockDetails]: any) => blockDetails.blockId === blockId
+      )[0]
+      const blockDetails = block[1] as BlockDetailsWithIds
+
+      console.log(duration)
+      blockDetails.durationInM = duration
+
+      console.log(blockDetails)
+      return trainningsClone
+    }
+
     case "delete_exercise": {
       const { exercise, exIndex } = action
       const trainningId = exercise.trainningId

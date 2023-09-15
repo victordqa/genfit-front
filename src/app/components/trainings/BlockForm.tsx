@@ -57,6 +57,11 @@ export default function BlockForm({
       modifier: string,
       modifierId: number
     ) => void
+    handleChangeDuration: (
+      trainningId: number,
+      blockId: number,
+      duration: number
+    ) => void
   }
   exerciseProps: {
     exercises: Exercise[]
@@ -71,7 +76,8 @@ export default function BlockForm({
 }) {
   const { blockName, durationInM, modifier, trainningId, blockId, exercises } =
     blockProps.blockDetails
-  const { handleAddExercise, handleChangeMod } = blockProps
+  const { handleAddExercise, handleChangeMod, handleChangeDuration } =
+    blockProps
   const {
     handleChangeExercise,
     handleDeleteExercise,
@@ -79,34 +85,9 @@ export default function BlockForm({
   } = exerciseProps
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
-  const [blockState, setBlockState] = useState({
-    durationInM,
-    modifier,
-  })
-  type Alert =
-    | { title: string; message: string; severity: AlertColor }
-    | undefined
 
-  const [validationErrors, setValidationErrors] = useState<ValidationsErrors>({
-    modifier: undefined,
-    durationInM: undefined,
-  })
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputName = e.target.name
-    const inputValue = e.target.value
-    setBlockState((oldInput) => {
-      return { ...oldInput, [inputName]: inputValue }
-    })
-  }
-  const validate = () => {
-    const errors = blockFormValidation(blockState)
-    if (Object.entries(errors).length > 0) {
-      setValidationErrors(errors as ValidationsErrors)
-      console.log(validationErrors)
-    }
-  }
-
+  const errors = blockFormValidation({ modifier, durationInM })
+  console.log(errors)
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
@@ -115,15 +96,18 @@ export default function BlockForm({
         </Typography>
         <TextField
           size="small"
-          error={validationErrors.reps !== undefined}
+          error={errors.durationInM != undefined}
           sx={{ ...inputSyle, width: { xs: 70, md: 110, lg: 150 } }}
           id={"durationInM" + trainningId + blockId}
           label="Duração (min)"
           type="number"
           name="durationInM"
-          value={blockState.durationInM}
-          onBlur={validate}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInput(e)}
+          value={durationInM}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value
+            const newDuration = value ? parseInt(value) : 0
+            handleChangeDuration(trainningId, blockId, newDuration)
+          }}
           autoComplete="duration"
         />
         <Autocomplete
@@ -153,8 +137,7 @@ export default function BlockForm({
             <TextField
               {...params}
               sx={{ ...inputSyle, width: { xs: 160, md: 180, lg: 200 } }}
-              error={validationErrors.name !== undefined}
-              onBlur={validate}
+              error={errors.modifier != undefined}
               id={"mod-txt" + trainningId + blockId}
               label="Mod"
               name="mod"

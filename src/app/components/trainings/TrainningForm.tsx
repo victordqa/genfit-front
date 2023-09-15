@@ -98,6 +98,19 @@ export default function TrainningForm() {
     })
   }
 
+  const handleChangeDuration = (
+    trainningId: number,
+    blockId: number,
+    duration: number
+  ) => {
+    dispatch({
+      type: "change_duration",
+      trainningId,
+      blockId,
+      duration,
+    })
+  }
+
   const handleChangeRepsAndLoad = (exercise: ExerciseWithIds | null) => {
     if (exercise) {
       dispatch({
@@ -213,6 +226,7 @@ export default function TrainningForm() {
                         modifiers,
                         handleAddExercise,
                         handleChangeMod,
+                        handleChangeDuration,
                       }}
                     />
                   )
