@@ -1,6 +1,7 @@
 import { Box, Button, Container } from "@mui/material"
 import Typography from "@mui/material/Typography"
 import TrainningForm from "../../components/trainings/TrainningForm"
+import BoxName from "../../components/boxes/BoxName"
 
 export default function BoxDy() {
   return (
@@ -19,9 +20,7 @@ export default function BoxDy() {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h3" sx={{ color: "white" }}>
-          Box
-        </Typography>
+        <BoxName />
       </Box>
       <Box
         sx={{

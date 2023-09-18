@@ -83,10 +83,8 @@ export default function trainningReducer(
       )[0]
       const blockDetails = block[1] as BlockDetailsWithIds
 
-      console.log(duration)
       blockDetails.durationInM = duration
 
-      console.log(blockDetails)
       return trainningsClone
     }
 

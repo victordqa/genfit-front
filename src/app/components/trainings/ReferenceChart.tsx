@@ -41,7 +41,7 @@ type Labels = {
   accWeekLoad: number
 }[]
 
-export function ReferenceChart() {
+export function ReferenceChart({ reloadChart }: { reloadChart: boolean }) {
   const [loading, setLoading] = useState(false)
   const [labels, setLabels] = useState<Labels>([])
   const [error, setError] = useState("")
@@ -71,7 +71,6 @@ export function ReferenceChart() {
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.calcTrainningLoadsApi}?boxId=${boxId}`
     ).then((res) => {
       const statusCode = res.status
-      console.log(res)
       setLoading(false)
       if (statusCode === 200) {
         setLabels(res.data)
@@ -80,7 +79,7 @@ export function ReferenceChart() {
         console.log(res)
       }
     })
-  }, [])
+  }, [reloadChart])
 
   let content = <CircularProgress />
 

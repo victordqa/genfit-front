@@ -87,7 +87,7 @@ export default function BlockForm({
   const modifiers = blockProps.modifiers
 
   const errors = blockFormValidation({ modifier, durationInM })
-  console.log(errors)
+
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>

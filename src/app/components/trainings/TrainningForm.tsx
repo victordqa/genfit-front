@@ -17,6 +17,7 @@ import {
   Modifier,
   ExerciseWithIds,
   Exercise,
+  AlertType,
 } from "./types"
 import trainningReducer from "./trainningReducer"
 import { usePathname } from "next/navigation"
@@ -54,6 +55,7 @@ const initialState: TrainningWithIds[] | [] = []
 
 export default function TrainningForm() {
   const [loading, setLoading] = useState(false)
+  const [reloadChart, setReloadChart] = useState(false)
   const [error, setError] = useState("")
   const [trainnings, dispatch] = useReducer(trainningReducer, initialState)
   const [exercises, setExercises] = useState<Exercise[]>([])
@@ -171,7 +173,7 @@ export default function TrainningForm() {
     ]
 
     handleApiCalls(apiCalls)
-  }, [])
+  }, [reloadChart])
 
   let content = loading ? (
     <CircularProgress />
@@ -183,8 +185,12 @@ export default function TrainningForm() {
         justifyContent: "center",
       }}
     >
-      <ReferenceChart />
-      <RegisterTrainningButton trainnings={trainnings} boxId={boxId} />
+      <ReferenceChart reloadChart={reloadChart} />
+      <RegisterTrainningButton
+        trainnings={trainnings}
+        boxId={boxId}
+        setReloadChart={setReloadChart}
+      />
       <form>
         {trainnings.map((trainning: TrainningWithIds) => {
           return (

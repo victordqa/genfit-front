@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Box, Button } from "@mui/material"
+import { Alert, AlertTitle, Box, Button, Snackbar } from "@mui/material"
 import React, { useContext, useState } from "react"
 import routes from "../../../routes"
 import { AlertType, TrainningWithIds } from "./types"
@@ -7,9 +7,13 @@ import { usePost } from "../../../hooks/useHttp"
 export default function RegisterTrainningButton({
   trainnings,
   boxId,
+
+  setReloadChart,
 }: {
   trainnings: TrainningWithIds[]
   boxId: number
+
+  setReloadChart: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   const parseToBackEnd = (trainnings: TrainningWithIds[]) => {
     const parsedTrainnings = trainnings.map((trainning) => {
@@ -22,11 +26,22 @@ export default function RegisterTrainningButton({
   }
   const [isDisabled, setDisabled] = useState(false)
   const [alert, setAlert] = useState<AlertType>(undefined)
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return
+    }
+
+    setOpen(false)
+  }
 
   const handleSend = async () => {
     setAlert(undefined)
     setDisabled(true)
-    console.log(trainnings)
     const res = await usePost(
       parseToBackEnd(trainnings),
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.createTrainningApi}`
@@ -68,44 +83,22 @@ export default function RegisterTrainningButton({
     margin: "0.5rem",
     ":hover": { border: "2px solid #444ca3", backgroundColor: "white" },
   }
-  let content = (
-    <Box sx={layOutSx}>
-      <Button
-        sx={buttonSx}
-        variant="contained"
-        onClick={() => {
-          handleSend()
-        }}
-        disabled={isDisabled}
-      >
-        Registrar Treino
-      </Button>
-    </Box>
+
+  const button = (
+    <Button
+      sx={buttonSx}
+      variant="contained"
+      onClick={() => {
+        handleSend()
+        setOpen(true)
+      }}
+      disabled={isDisabled}
+    >
+      Registrar Treino
+    </Button>
   )
 
-  if (alert?.title === "Erro") {
-    content = (
-      <Box sx={layOutSx}>
-        <Button
-          sx={buttonSx}
-          variant="contained"
-          onClick={() => {
-            handleSend()
-          }}
-          disabled={isDisabled}
-        >
-          Registrar Treino
-        </Button>
-        <Alert
-          severity={alert.severity}
-          sx={{ marginTop: "1rem", marginBottom: "1rem" }}
-        >
-          <AlertTitle>{alert.title}</AlertTitle>
-          {alert.message}
-        </Alert>
-      </Box>
-    )
-  }
+  let content = <Box sx={layOutSx}>{button}</Box>
 
   if (alert?.title === "Sucesso") {
     content = (
@@ -117,6 +110,27 @@ export default function RegisterTrainningButton({
           <AlertTitle>{alert.title}</AlertTitle>
           {alert.message}
         </Alert>
+        <Button onClick={() => setReloadChart((oldState) => !oldState)}>
+          Continuar
+        </Button>
+      </Box>
+    )
+  }
+
+  if (alert?.title === "Erro") {
+    content = (
+      <Box sx={layOutSx}>
+        {button}
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity={alert.severity}
+            sx={{ marginTop: "1rem", marginBottom: "1rem" }}
+          >
+            <AlertTitle>{alert.title}</AlertTitle>
+            {alert.message}
+          </Alert>
+        </Snackbar>
       </Box>
     )
   }
