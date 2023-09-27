@@ -4,7 +4,7 @@ import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertTitle, TextField } from "@mui/material"
-import { usePost } from "../../../hooks/useHttp"
+import { postReq } from "../../../hooks/useHttp"
 import { useRouter } from "next/navigation"
 import routes from "../../../routes"
 import SignUpForm from "../SingUpForm"
@@ -44,7 +44,7 @@ export default function LoginForm({
     e.preventDefault()
     setError("")
     setDisabled(true)
-    const res = await usePost(
+    const res = await postReq(
       input,
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.login}`
     )

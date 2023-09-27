@@ -5,7 +5,7 @@ import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, Card, TextField } from "@mui/material"
-import { useGet, usePost, UseHttpResponse } from "../../../hooks/useHttp"
+import { getReq, postReq, UseHttpResponse } from "../../../hooks/useHttp"
 //import { singUpFormValidation } from "../../validation/validation"
 import routes from "../../../routes"
 import BlockForm from "./BlockForm"
@@ -161,13 +161,13 @@ export default function TrainningForm() {
   useEffect(() => {
     setLoading(true)
     const apiCalls = [
-      useGet(
+      getReq(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.suggestTrainningApi}?quantity=1&boxId=${boxId}`
       ),
-      useGet(
+      getReq(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.listCoachExsApi}`
       ),
-      useGet(
+      getReq(
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.listCoachModsApi}`
       ),
     ]

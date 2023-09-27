@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
-import { useGet } from "../../../hooks/useHttp"
+import { getReq } from "../../../hooks/useHttp"
 import routes, { publicRoutes } from "../../../routes"
 import CircularProgress from "@mui/material/CircularProgress"
 import ParametricModal from "../ParametricModal"
@@ -42,7 +42,7 @@ export default function BoxesCards() {
 
   const fetchAndSetStates = () => {
     setError("")
-    useGet(
+    getReq(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.listBoxesApi}`
     ).then((res) => {
       const statusCode = res.status

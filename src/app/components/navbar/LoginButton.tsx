@@ -12,7 +12,7 @@ import ParametricModal from "../ParametricModal"
 import LoginForm from "./LoginForm"
 import { useContext, useState } from "react"
 import { AuthenticationContext } from "../../../context/AuthContext"
-import { useGet } from "../../../hooks/useHttp"
+import { getReq } from "../../../hooks/useHttp"
 import routes from "../../../routes"
 import { useRouter } from "next/navigation"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
@@ -35,7 +35,7 @@ export default function LoginButton() {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const handleLogout = () => {
-    useGet(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.logout}`)
+    getReq(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.logout}`)
     setAuth({ coachData: null })
     push(routes.home)
   }

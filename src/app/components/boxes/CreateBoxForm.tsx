@@ -5,7 +5,7 @@ import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
-import { usePost } from "../../../hooks/useHttp"
+import { postReq } from "../../../hooks/useHttp"
 import routes from "../../../routes"
 import { createBoxFormValidation } from "../../../validation/validation"
 import { useRouter } from "next/navigation"
@@ -71,7 +71,7 @@ export default function CreateBoxForm({
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     } else {
-      const res = await usePost(
+      const res = await postReq(
         input,
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.createBoxesApi}`
       )

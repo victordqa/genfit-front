@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from "react"
-import { useGet } from "../hooks/useHttp"
+import { getReq } from "../hooks/useHttp"
 import routes from "../routes"
 import { publicRoutes } from "../routes"
 import { usePathname, useRouter } from "next/navigation"
@@ -34,7 +34,7 @@ export default function AuthContext({ children }: { children: ReactNode }) {
   //make a call to me api
   //set state based on call - null if unauthorized and data if authorized
   useEffect(() => {
-    useGet(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.me}`).then(
+    getReq(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.me}`).then(
       (res) => {
         const statusCode = res.status
 

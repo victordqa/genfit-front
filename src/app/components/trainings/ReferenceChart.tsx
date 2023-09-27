@@ -13,7 +13,7 @@ import {
 import { Bar } from "react-chartjs-2"
 import { Box, CircularProgress } from "@mui/material"
 import { usePathname } from "next/navigation"
-import { useGet } from "../../../hooks/useHttp"
+import { getReq } from "../../../hooks/useHttp"
 import routes from "../../../routes"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -67,7 +67,7 @@ export function ReferenceChart({ reloadChart }: { reloadChart: boolean }) {
     setError("")
     setLoading(true)
 
-    useGet(
+    getReq(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.calcTrainningLoadsApi}?boxId=${boxId}`
     ).then((res) => {
       const statusCode = res.status

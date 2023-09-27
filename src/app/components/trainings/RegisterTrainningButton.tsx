@@ -2,7 +2,7 @@ import { Alert, AlertTitle, Box, Button, Snackbar } from "@mui/material"
 import React, { useContext, useState } from "react"
 import routes from "../../../routes"
 import { AlertType, TrainningWithIds } from "./types"
-import { usePost } from "../../../hooks/useHttp"
+import { postReq } from "../../../hooks/useHttp"
 
 export default function RegisterTrainningButton({
   trainnings,
@@ -42,7 +42,7 @@ export default function RegisterTrainningButton({
   const handleSend = async () => {
     setAlert(undefined)
     setDisabled(true)
-    const res = await usePost(
+    const res = await postReq(
       parseToBackEnd(trainnings),
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.createTrainningApi}`
     )

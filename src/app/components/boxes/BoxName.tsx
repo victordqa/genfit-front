@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import Typography from "@mui/material/Typography"
-import { useGet } from "../../../hooks/useHttp"
+import { getReq } from "../../../hooks/useHttp"
 import routes from "../../../routes"
 
 import { usePathname } from "next/navigation"
@@ -13,7 +13,7 @@ export default function BoxName() {
   const boxId = parseInt(path.split("/")[2])
 
   const fetchAndSetStates = () => {
-    useGet(
+    getReq(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.getBoxApi}/${boxId}`
     ).then((res) => {
       const statusCode = res.status
