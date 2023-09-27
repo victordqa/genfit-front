@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
 import { postReq } from "../../../hooks/useHttp"
 import routes from "../../../routes"
-import { createBoxFormValidation } from "../../../validation/validation"
+import { useCreateBoxFormValidation } from "../../../validation/validation"
 import { useRouter } from "next/navigation"
 
 const inputSyle = {
@@ -67,7 +67,7 @@ export default function CreateBoxForm({
       name: undefined,
     })
     setDisabled(true)
-    const errors = createBoxFormValidation(input)
+    const errors = useCreateBoxFormValidation(input)
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     } else {

@@ -1,7 +1,5 @@
 import Validator from "validatorjs"
 
-Validator.useLang("pt")
-
 type SignUpFormInput = {
   email: string
   password: string
@@ -27,7 +25,8 @@ export type ValidationsErrors = {
   [key: string]: string[] | undefined
 }
 
-export const singUpFormValidation = (input: SignUpFormInput) => {
+export const useSingUpFormValidation = (input: SignUpFormInput) => {
+  Validator.useLang("pt")
   const rules = {
     name: "required|min:1|max:255",
     email: "required|email",
@@ -40,7 +39,8 @@ export const singUpFormValidation = (input: SignUpFormInput) => {
   return validation.errors.all()
 }
 
-export const createBoxFormValidation = (input: CreateBoxFormInput) => {
+export const useCreateBoxFormValidation = (input: CreateBoxFormInput) => {
+  Validator.useLang("pt")
   const rules = {
     name: "required|min:1|max:255",
   }
@@ -50,7 +50,8 @@ export const createBoxFormValidation = (input: CreateBoxFormInput) => {
   return validation.errors.all()
 }
 
-export const exerciseFormValidation = (input: ExerciseFormInput) => {
+export const useExerciseFormValidation = (input: ExerciseFormInput) => {
+  Validator.useLang("pt")
   const rules = {
     name: "required|min:1|max:255",
     reps: "required|integer|min:1|max:9999",
@@ -61,7 +62,8 @@ export const exerciseFormValidation = (input: ExerciseFormInput) => {
   return validation.errors.all()
 }
 
-export const blockFormValidation = (input: BlockFormInput) => {
+export const useBlockFormValidation = (input: BlockFormInput) => {
+  Validator.useLang("pt")
   const rules = {
     modifier: "required|min:1|max:255",
     durationInM: "required|integer|min:0|max:9999",

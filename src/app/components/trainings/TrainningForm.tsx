@@ -6,7 +6,7 @@ import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, Card, TextField } from "@mui/material"
 import { getReq, postReq, UseHttpResponse } from "../../../hooks/useHttp"
-//import { singUpFormValidation } from "../../validation/validation"
+//import { useSingUpFormValidation } from "../../validation/validation"
 import routes from "../../../routes"
 import BlockForm from "./BlockForm"
 import {

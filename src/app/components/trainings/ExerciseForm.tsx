@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material"
 
-import { exerciseFormValidation } from "../../../validation/validation"
+import { useExerciseFormValidation } from "../../../validation/validation"
 import { Exercise, ExerciseWithIds } from "./types"
 import DeleteIcon from "@mui/icons-material/Delete"
 
@@ -78,7 +78,7 @@ export default function ExerciseForm({
     })
   }
   const validate = () => {
-    const errors = exerciseFormValidation(input)
+    const errors = useExerciseFormValidation(input)
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     }

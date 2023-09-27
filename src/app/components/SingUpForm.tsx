@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
 import { postReq } from "../../hooks/useHttp"
 import routes from "../../routes"
-import { singUpFormValidation } from "../../validation/validation"
+import { useSingUpFormValidation } from "../../validation/validation"
 import { AlertType } from "./trainings/types"
 
 const inputSyle = {
@@ -70,7 +70,7 @@ export default function SignUpForm() {
       password_confirmation: undefined,
     })
     setDisabled(true)
-    const errors = singUpFormValidation(input)
+    const errors = useSingUpFormValidation(input)
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     } else {

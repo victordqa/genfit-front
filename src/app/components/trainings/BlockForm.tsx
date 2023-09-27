@@ -14,7 +14,7 @@ import {
 } from "@mui/material"
 
 import {
-  blockFormValidation,
+  useBlockFormValidation,
   ValidationsErrors,
 } from "../../../validation/validation"
 import ExerciseForm from "./ExerciseForm"
@@ -86,7 +86,7 @@ export default function BlockForm({
   const exerciseOptions = exerciseProps.exercises
   const modifiers = blockProps.modifiers
 
-  const errors = blockFormValidation({ modifier, durationInM })
+  const errors = useBlockFormValidation({ modifier, durationInM })
 
   return (
     <>
