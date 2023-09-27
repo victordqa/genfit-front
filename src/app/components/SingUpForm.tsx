@@ -58,7 +58,7 @@ export default function SignUpForm() {
     }
   }
 
-  const handleSend = async (
+  const useHandleSend = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
@@ -183,7 +183,7 @@ export default function SignUpForm() {
               margin: "0.5rem",
               color: "white",
             }}
-            onClick={handleSend}
+            onClick={useHandleSend}
             disabled={isDisabled}
           >
             Registrar
