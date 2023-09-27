@@ -60,6 +60,25 @@ export const usePost = async (
   }
 }
 
+export const postReq = async (
+  body: {
+    [index: string]: any
+  },
+  url: string
+) => {
+  try {
+    const res = await axios.post(url, body, { withCredentials: true })
+    return {
+      data: res.data,
+      status: res.status,
+      headers: res.headers,
+      message: "",
+    }
+  } catch (error: any) {
+    return errorhandler(error)
+  }
+}
+
 export const useGet = async (url: string) => {
   try {
     const res = await axios.get(url, { withCredentials: true })

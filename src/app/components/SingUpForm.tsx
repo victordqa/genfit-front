@@ -5,7 +5,7 @@ import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import { Alert, AlertColor, AlertTitle, TextField } from "@mui/material"
-import { usePost } from "../../hooks/useHttp"
+import { postReq } from "../../hooks/useHttp"
 import routes from "../../routes"
 import { singUpFormValidation } from "../../validation/validation"
 import { AlertType } from "./trainings/types"
@@ -74,7 +74,7 @@ export default function SignUpForm() {
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     } else {
-      const res = await usePost(
+      const res = await postReq(
         { ...input, confirmPassword: input.password_confirmation },
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.signup}`
       )
