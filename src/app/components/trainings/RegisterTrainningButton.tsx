@@ -39,7 +39,7 @@ export default function RegisterTrainningButton({
     setOpen(false)
   }
 
-  const handleSend = async () => {
+  const useHandleSend = async () => {
     setAlert(undefined)
     setDisabled(true)
     const res = await postReq(
@@ -70,6 +70,11 @@ export default function RegisterTrainningButton({
     setDisabled(false)
   }
 
+  const useOnclick = () => {
+    useHandleSend()
+    setOpen(true)
+  }
+
   const layOutSx = {
     display: "flex",
     justifyContent: "center",
@@ -88,10 +93,7 @@ export default function RegisterTrainningButton({
     <Button
       sx={buttonSx}
       variant="contained"
-      onClick={() => {
-        handleSend()
-        setOpen(true)
-      }}
+      onClick={useOnclick}
       disabled={isDisabled}
     >
       Registrar Treino

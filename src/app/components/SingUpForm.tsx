@@ -58,7 +58,7 @@ export default function SignUpForm() {
     }
   }
 
-  const handleSend = async (
+  const useHandleSend = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
@@ -74,31 +74,31 @@ export default function SignUpForm() {
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     } else {
-      const res = await postReq(
+      postReq(
         { ...input, confirmPassword: input.password_confirmation },
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.signup}`
-      )
-
-      const statusCode = res.status
-      if (statusCode === 201) {
-        setAlert({
-          title: "Sucesso",
-          message: "Conta criada! Realize o login",
-          severity: "success",
-        })
-      } else if (statusCode === 422) {
-        setAlert({
-          title: "Erro",
-          message: "Este email ja foi utilizado",
-          severity: "error",
-        })
-      } else {
-        setAlert({
-          title: "Erro",
-          message: "Ops, algo inesperado ocorreu",
-          severity: "error",
-        })
-      }
+      ).then((res) => {
+        const statusCode = res.status
+        if (statusCode === 201) {
+          setAlert({
+            title: "Sucesso",
+            message: "Conta criada! Realize o login",
+            severity: "success",
+          })
+        } else if (statusCode === 422) {
+          setAlert({
+            title: "Erro",
+            message: "Este email ja foi utilizado",
+            severity: "error",
+          })
+        } else {
+          setAlert({
+            title: "Erro",
+            message: "Ops, algo inesperado ocorreu",
+            severity: "error",
+          })
+        }
+      })
     }
 
     setDisabled(false)
@@ -183,7 +183,7 @@ export default function SignUpForm() {
               margin: "0.5rem",
               color: "white",
             }}
-            onClick={handleSend}
+            onClick={useHandleSend}
             disabled={isDisabled}
           >
             Registrar

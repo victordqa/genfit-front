@@ -38,7 +38,7 @@ export default function LoginForm({
     })
   }
 
-  const handleSend = async (
+  const useHandleSend = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
@@ -114,7 +114,7 @@ export default function LoginForm({
             variant="contained"
             color="secondary"
             sx={{ backgroundColor: "#444ca3!important", margin: "0.5rem" }}
-            onClick={handleSend}
+            onClick={useHandleSend}
             disabled={isDisabled}
             type="submit"
           >

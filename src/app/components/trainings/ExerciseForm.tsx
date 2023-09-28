@@ -77,7 +77,7 @@ export default function ExerciseForm({
       return { ...oldInput, [inputName]: inputValue }
     })
   }
-  const validate = () => {
+  const useValidate = () => {
     const errors = useExerciseFormValidation(input)
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
@@ -128,7 +128,7 @@ export default function ExerciseForm({
                 {...params}
                 sx={{ ...inputSyle, width: { xs: 170, md: 200, lg: 230 } }}
                 error={validationErrors.name !== undefined}
-                onBlur={validate}
+                onBlur={useValidate}
                 id={"name-txt" + trainningId + blockId + exIndex}
                 label={exIndex === 0 ? "Exercicio" : ""}
                 name="name"
@@ -146,7 +146,7 @@ export default function ExerciseForm({
             type="number"
             name="reps"
             value={input.reps}
-            onBlur={validate}
+            onBlur={useValidate}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleInput(e)
             }}
@@ -162,7 +162,7 @@ export default function ExerciseForm({
             autoComplete="load"
             name="load"
             value={input.load}
-            onBlur={validate}
+            onBlur={useValidate}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInput(e)
             }

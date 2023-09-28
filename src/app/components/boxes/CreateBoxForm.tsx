@@ -58,7 +58,7 @@ export default function CreateBoxForm({
     }
   }
 
-  const handleSend = async (
+  const useHandleSend = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault()
@@ -71,28 +71,50 @@ export default function CreateBoxForm({
     if (Object.entries(errors).length > 0) {
       setValidationErrors(errors as ValidationsErrors)
     } else {
-      const res = await postReq(
+      // const res = await postReq(
+      //   input,
+      //   `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.createBoxesApi}`
+      // )
+
+      // const statusCode = res.status
+      // if (statusCode === 201) {
+      //   setAlert({
+      //     title: "Sucesso",
+      //     message: "Box Criado!",
+      //     severity: "success",
+      //   })
+      //   fetchAndSetStates()
+      // } else if (statusCode === 401) {
+      //   push(routes.home)
+      // } else {
+      //   setAlert({
+      //     title: "Erro",
+      //     message: "Ops, algo inesperado ocorreu",
+      //     severity: "error",
+      //   })
+      // }
+      postReq(
         input,
         `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.createBoxesApi}`
-      )
-
-      const statusCode = res.status
-      if (statusCode === 201) {
-        setAlert({
-          title: "Sucesso",
-          message: "Box Criado!",
-          severity: "success",
-        })
-        fetchAndSetStates()
-      } else if (statusCode === 401) {
-        push(routes.home)
-      } else {
-        setAlert({
-          title: "Erro",
-          message: "Ops, algo inesperado ocorreu",
-          severity: "error",
-        })
-      }
+      ).then((res) => {
+        const statusCode = res.status
+        if (statusCode === 201) {
+          setAlert({
+            title: "Sucesso",
+            message: "Box Criado!",
+            severity: "success",
+          })
+          fetchAndSetStates()
+        } else if (statusCode === 401) {
+          push(routes.home)
+        } else {
+          setAlert({
+            title: "Erro",
+            message: "Ops, algo inesperado ocorreu",
+            severity: "error",
+          })
+        }
+      })
     }
 
     setDisabled(false)
@@ -134,7 +156,7 @@ export default function CreateBoxForm({
               color: "white",
               display: "block",
             }}
-            onClick={handleSend}
+            onClick={useHandleSend}
             disabled={isDisabled}
           >
             Criar
