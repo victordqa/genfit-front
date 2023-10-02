@@ -56,6 +56,8 @@ export default function LoginForm({
       const { coach } = res.data
       setAuth({ coachData: coach })
       push(routes.boxesRoute)
+      //save token to local storage
+      localStorage.setItem("genFitAccessToken", res.data.accessToken)
       handleClose()
     } else if (statusCode === 401) {
       setError("Email ou senha invalidos")

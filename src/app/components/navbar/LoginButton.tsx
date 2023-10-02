@@ -36,6 +36,7 @@ export default function LoginButton() {
   const handleClose = () => setOpen(false)
   const handleLogout = () => {
     getReq(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}${routes.logout}`)
+    localStorage.removeItem("genFitAccessToken")
     setAuth({ coachData: null })
     push(routes.home)
   }

@@ -41,6 +41,11 @@ const errorhandler = (error: any) => {
   }
 }
 
+const checkForToken = () => {
+  const token = localStorage.getItem("genFitAccessToken")
+  return token ? token : ""
+}
+
 export const postReq = async (
   body: {
     [index: string]: any
@@ -48,7 +53,10 @@ export const postReq = async (
   url: string
 ) => {
   try {
-    const res = await axios.post(url, body, { withCredentials: true })
+    const res = await axios.post(url, body, {
+      withCredentials: true,
+      headers: { Authorization: `Bearer ${checkForToken()}` },
+    })
     return {
       data: res.data,
       status: res.status,
@@ -62,7 +70,10 @@ export const postReq = async (
 
 export const getReq = async (url: string) => {
   try {
-    const res = await axios.get(url, { withCredentials: true })
+    const res = await axios.get(url, {
+      withCredentials: true,
+      headers: { Authorization: `Bearer ${checkForToken()}` },
+    })
 
     return {
       data: res.data,
