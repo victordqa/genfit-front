@@ -105,7 +105,7 @@ export default function SignUpForm() {
   }
   return (
     <div>
-      <Box sx={{ minHeight: "70vh" }}>
+      <Box sx={{ minHeight: "60vh" }}>
         <Typography
           id="modal-modal-title"
           variant="h6"

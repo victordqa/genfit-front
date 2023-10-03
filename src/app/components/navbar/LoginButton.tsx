@@ -7,6 +7,7 @@ import {
   Menu,
   MenuItem,
   Typography,
+  Button,
 } from "@mui/material"
 import ParametricModal from "../ParametricModal"
 import LoginForm from "./LoginForm"
@@ -80,6 +81,23 @@ export default function LoginButton() {
           handleClose={handleClose}
         >
           <LoginForm handleClose={handleClose} />
+          <Button
+            variant="contained"
+            sx={{
+              color: "#444ca3!important",
+              border: "2px solid transparent",
+              backgroundColor: "white",
+              margin: "0.5rem",
+              ":hover": {
+                border: "2px solid #444ca3",
+                backgroundColor: "white",
+              },
+              width: "6rem",
+            }}
+            onClick={handleClose}
+          >
+            Fechar
+          </Button>
         </ParametricModal>
       )}
     </>

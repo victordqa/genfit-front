@@ -146,6 +146,23 @@ export default function LoginForm({
           buttonTxt="Registrar"
         >
           <SignUpForm />
+          <Button
+            variant="contained"
+            sx={{
+              color: "#444ca3!important",
+              border: "2px solid transparent",
+              backgroundColor: "white",
+              margin: "0.5rem",
+              ":hover": {
+                border: "2px solid #444ca3",
+                backgroundColor: "white",
+              },
+              width: "6rem",
+            }}
+            onClick={handleSignUpClose}
+          >
+            Fechar
+          </Button>
         </ParametricModal>
       </Box>
     </div>
