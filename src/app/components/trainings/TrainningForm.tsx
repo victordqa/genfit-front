@@ -157,6 +157,10 @@ export default function TrainningForm() {
     }
   }
 
+  const useSetReload = () => {
+    setReloadChart((prevState) => !prevState)
+  }
+
   const boxId = parseInt(path.split("/")[2])
   useEffect(() => {
     setLoading(true)
@@ -191,6 +195,7 @@ export default function TrainningForm() {
         boxId={boxId}
         setReloadChart={setReloadChart}
       />
+      <Button onClick={useSetReload}>Gerar Novamente</Button>
       <form>
         {trainnings.map((trainning: TrainningWithIds) => {
           return (
