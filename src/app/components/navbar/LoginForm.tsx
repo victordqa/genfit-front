@@ -145,24 +145,28 @@ export default function LoginForm({
           }}
           buttonTxt="Registrar"
         >
-          <SignUpForm />
-          <Button
-            variant="contained"
-            sx={{
-              color: "#444ca3!important",
-              border: "2px solid transparent",
-              backgroundColor: "white",
-              margin: "0.5rem",
-              ":hover": {
-                border: "2px solid #444ca3",
-                backgroundColor: "white",
-              },
-              width: "6rem",
-            }}
-            onClick={handleSignUpClose}
+          <Box
+            sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
           >
-            Fechar
-          </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: "#444ca3!important",
+                border: "2px solid transparent",
+                backgroundColor: "white",
+                margin: "0.5rem",
+                ":hover": {
+                  border: "2px solid #444ca3",
+                  backgroundColor: "white",
+                },
+                width: "3rem",
+              }}
+              onClick={handleSignUpClose}
+            >
+              X
+            </Button>
+          </Box>
+          <SignUpForm />
         </ParametricModal>
       </Box>
     </div>

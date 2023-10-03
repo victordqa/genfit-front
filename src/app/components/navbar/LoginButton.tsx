@@ -80,24 +80,28 @@ export default function LoginButton() {
           handleOpen={handleOpen}
           handleClose={handleClose}
         >
-          <LoginForm handleClose={handleClose} />
-          <Button
-            variant="contained"
-            sx={{
-              color: "#444ca3!important",
-              border: "2px solid transparent",
-              backgroundColor: "white",
-              margin: "0.5rem",
-              ":hover": {
-                border: "2px solid #444ca3",
-                backgroundColor: "white",
-              },
-              width: "6rem",
-            }}
-            onClick={handleClose}
+          <Box
+            sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
           >
-            Fechar
-          </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: "#444ca3!important",
+                border: "2px solid transparent",
+                backgroundColor: "white",
+                margin: "0.5rem",
+                ":hover": {
+                  border: "2px solid #444ca3",
+                  backgroundColor: "white",
+                },
+                width: "3rem",
+              }}
+              onClick={handleClose}
+            >
+              X
+            </Button>
+          </Box>
+          <LoginForm handleClose={handleClose} />
         </ParametricModal>
       )}
     </>
